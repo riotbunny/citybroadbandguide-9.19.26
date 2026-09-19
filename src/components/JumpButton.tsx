@@ -6,7 +6,7 @@ export default function JumpButton() {
     e.preventDefault();
     const el = document.getElementById('locator');
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       
       // Force CSS animation restart
       el.classList.remove('animate-pulse-glow');
