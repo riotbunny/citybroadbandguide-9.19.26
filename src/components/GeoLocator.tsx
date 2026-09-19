@@ -35,7 +35,7 @@ export default function GeoLocator() {
           type="text" 
           value={zip} 
           onChange={(e) => setZip(e.target.value.replace(/[^0-9]/g, ''))} 
-          placeholder="Zip Code..." 
+          placeholder="Enter Zip Code" 
           maxLength={5}
           className="w-full bg-transparent text-slate-900 placeholder:text-slate-400 font-extrabold text-xl md:text-2xl px-6 py-3.5 outline-none tracking-widest text-center"
         />
@@ -45,7 +45,7 @@ export default function GeoLocator() {
           disabled={loading || zip.length < 5}
           className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:hover:bg-indigo-600 text-white font-black text-base md:text-lg py-3.5 px-8 md:px-10 rounded-xl transition-all shadow-md whitespace-nowrap uppercase tracking-widest active:scale-95"
         >
-          {loading ? '...' : 'Search'}
+          {loading ? 'Searching...' : 'Find Providers'}
         </button>
       </form>
       

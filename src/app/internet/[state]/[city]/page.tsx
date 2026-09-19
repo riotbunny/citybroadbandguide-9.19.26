@@ -132,7 +132,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
 
           <div className="max-w-lg mx-auto bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl relative mb-12">
             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-3xl pointer-events-none"></div>
-            <p className="text-slate-300 text-sm font-semibold mb-4 text-left">Check Exact Availability at Your Home:</p>
+            <p className="text-white text-lg md:text-xl font-bold mb-5 text-center drop-shadow-sm">Enter your zip code to see exactly who covers your street:</p>
             <GeoLocator />
           </div>
         </div>
