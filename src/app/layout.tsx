@@ -15,6 +15,27 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "City Broadband Guide",
   description: "Compare local high-speed internet providers, plans, and pricing with City Broadband Guide.",
+  openGraph: {
+    title: "City Broadband Guide",
+    description: "Compare local high-speed internet providers, plans, and pricing.",
+    siteName: "City Broadband Guide",
+    images: [
+      {
+        url: "/city-broadband-guide-logo.jpg",
+        width: 1200,
+        height: 630,
+        alt: "City Broadband Guide",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "City Broadband Guide",
+    description: "Compare local high-speed internet providers, plans, and pricing.",
+    images: ["/city-broadband-guide-logo.jpg"],
+  },
 };
 
 import Footer from '../components/Footer'
