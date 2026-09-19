@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+model Carrier {
+  id           String   @id @default(cuid())
+  name         String
+  slug         String   @unique
+  logoPath     String?
+  brandColor   String   @default("#4f46e5")
+  isActive     Boolean  @default(true)
+  isNationwide Boolean  @default(false)
+  isTopPick    Boolean  @default(false)
+  hasFiber     Boolean  @default(false)
+  hasCable     Boolean  @default(false)
+  has5G        Boolean  @default(false)
+  hasSatellite Boolean  @default(false)
+  disclaimer   String?
+  aboutText    String?
+  rating       Float    @default(4.5)  
+  affiliateUrl String?
+  phoneNumber  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  plans        Plan[]
+  coverages    Coverage[]
+}
+model Plan {
+  id            String   @id @default(cuid())
+  carrierId     String
+  name          String
+  downloadSpeed Int?
+  uploadSpeed   Int?
+  price         Float
+  description   String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  carrier       Carrier  @relation(fields: [carrierId], references: [id], onDelete: Cascade)
+}
+model Location {
+  zip       String     @id
+  city      String
+  state     String
+  coverages Coverage[]
+}
+model Coverage {
+  id        String   @id @default(cuid())
+  carrierId String
+  zip       String
+  carrier   Carrier  @relation(fields: [carrierId], references: [id], onDelete: Cascade)
+  location  Location @relation(fields: [zip], references: [zip], onDelete: Cascade)
+
+  @@unique([carrierId, zip])
+}
