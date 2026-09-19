@@ -20,3 +20,8 @@ export async function login(formData: FormData) {
   }
   return { error: 'Invalid credentials' }
 }
+export async function logout() {
+  const cookieStore = await cookies()
+  cookieStore.delete('admin_session')
+  redirect('/login')
+}

@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import SaveStatusButton from '../../components/SaveStatusButton'
 import { toggleCarrierStatus, quickUpdateCarrier, createNewCarrier, toggleTopPick } from './actions'
+import { logout } from '../login/actions'
 
 const prisma = new PrismaClient()
 
@@ -13,7 +14,7 @@ export default async function AdminDashboard() {
   return (
         <div className="p-8 max-w-[95%] mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
-        <h1 className="text-3xl font-extrabold text-slate-800">CMS Dashboard - Carriers</h1>
+        <div className="flex items-center gap-4"><h1 className="text-3xl font-extrabold text-slate-800">CMS Dashboard</h1><form action={logout}><button className="bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 px-3 py-1.5 rounded-lg text-sm font-bold transition-colors">Log Out</button></form></div>
         
         <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
           <form action={createNewCarrier} className="flex gap-3 items-center">
@@ -85,7 +86,7 @@ export default async function AdminDashboard() {
                 <td className="p-4">
                   <form action={toggleTopPick.bind(null, c.id, !c.isTopPick)}>
                     <button type="submit" className={`px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition cursor-pointer border ${c.isTopPick ? 'bg-amber-100 text-amber-700 border-amber-300 hover:bg-amber-200' : 'bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100'}`} title="Click to feature this carrier globally">
-                      {c.isTopPick ? '★ Featured' : '☆ Set Top Pick'}
+                      {c.isTopPick ? 'â˜… Featured' : 'â˜† Set Top Pick'}
                     </button>
                   </form>
                 </td>
