@@ -32,7 +32,7 @@ export default function GeoLocator() {
       <form onSubmit={handleZipSubmit} className="relative bg-white rounded-2xl shadow-2xl flex flex-col sm:flex-row p-2 border border-slate-100 gap-2">
         
         <input 
-          type="text" inputMode="numeric" pattern="[0-9]*" onFocus={(e) => { setTimeout(() => e.target.closest("form").scrollIntoView({ behavior: "smooth", block: "center" }), 300) }} 
+          type="text" inputMode="numeric" pattern="[0-9]*" onFocus={(e) => { setTimeout(() => e.target.closest("form")?.scrollIntoView({ behavior: "smooth", block: "center" }), 300) }} 
           value={zip} 
           onChange={(e) => setZip(e.target.value.replace(/[^0-9]/g, ''))} 
           placeholder="Enter Zip Code" 
