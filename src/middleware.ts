@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
 
     // If we are on a live server, successfully grabbed their city/state, and it is a human:
     if (city && state && !isBot) {
-      const citySlug = city.toLowerCase().replace(/\s+/g, '-');
+      const citySlug = decodeURIComponent(city).toLowerCase().replace(/\s+/g, '-');
       const stateSlug = state.toLowerCase();
       
       // IP targeting reliably gives City/State (but rarely gives exact Zip codes).
