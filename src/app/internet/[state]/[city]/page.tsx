@@ -23,59 +23,62 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
 }
 
 export default async function CityDirectory({ params }: { params: Promise<{ state: string, city: string }> }) {
-  const { state, city } = await params;
-  const stateUpper = state.toUpperCase();
-  const cityClean = city.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  try {
+    const { state, city } = await params;
+    const stateUpper = state.toUpperCase();
+    const cityClean = city.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
-  // 1. Fetch Zip Codes
-  const locations = await prisma.location.findMany({
-    where: { state: stateUpper, city: { equals: cityClean } },
-    orderBy: { zip: 'asc' }
-  });
+    // 1. Fetch Zip Codes
+    const locations = await prisma.location.findMany({
+      where: { state: stateUpper, city: { equals: cityClean } },
+      orderBy: { zip: 'asc' }
+    });
 
-  if (locations.length === 0) {
-    return <div className="p-20 text-center text-2xl font-bold">City not found. Please check the URL.</div>;
-  }
-
-  const zipCodes = locations.map(l => l.zip);
-
-  // 2. Aggregate City-Wide Provider Data
-  const coverages = await prisma.coverage.findMany({
-    where: { zip: { in: zipCodes } },
-    include: {
-      carrier: {
-        include: { plans: true }
-      }
+    if (locations.length === 0) {
+      return <div className="p-20 text-center text-2xl font-bold">City not found. Please check the URL.</div>;
     }
-  });
 
-  const activeCarriersMap = new Map();
-  let highestSpeed = 0;
-  let fastestCarrier: any = null;
-  let lowestPrice = 999;
-  let cheapestCarrier: any = null;
+    const zipCodes = locations.map(l => l.zip);
 
-  coverages.forEach(cov => {
-    if (cov.carrier.isActive) {
-      if (!activeCarriersMap.has(cov.carrier.id)) {
-        activeCarriersMap.set(cov.carrier.id, cov.carrier);
+    // 2. Aggregate City-Wide Provider Data
+    const coverages = await prisma.coverage.findMany({
+      where: { zip: { in: zipCodes } },
+      include: {
+        carrier: {
+          include: { plans: true }
+        }
       }
-      cov.carrier.plans.forEach(p => {
-        const speed = Math.max(p.downloadSpeed || 0, p.uploadSpeed || 0);
-        if (speed > highestSpeed) { highestSpeed = speed; fastestCarrier = cov.carrier; }
-        if (p.price > 0 && p.price < lowestPrice) { lowestPrice = p.price; cheapestCarrier = cov.carrier; }
-      });
-    }
-  });
+    });
 
-  const uniqueCarriers = Array.from(activeCarriersMap.values());
-  if (lowestPrice === 999) lowestPrice = 49.99; // Fallback
-  
-  const editorPick = uniqueCarriers.sort((a, b) => (b.rating || 0) - (a.rating || 0))[0] || fastestCarrier || uniqueCarriers[0];
-  const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  const visitorsThisWeek = 142 + (locations.length * 3); // Dynamic faux-metric
+    const activeCarriersMap = new Map();
+    let highestSpeed = 0;
+    let fastestCarrier: any = null;
+    let lowestPrice = 999;
+    let cheapestCarrier: any = null;
 
-  // 3. Generate FAQ Schema
+    coverages.forEach(cov => {
+      if (cov.carrier && cov.carrier.isActive) {
+        if (!activeCarriersMap.has(cov.carrier.id)) {
+          activeCarriersMap.set(cov.carrier.id, cov.carrier);
+        }
+        if (cov.carrier.plans) {
+          cov.carrier.plans.forEach((p: any) => {
+            const speed = Math.max(p.downloadSpeed || 0, p.uploadSpeed || 0);
+            if (speed > highestSpeed) { highestSpeed = speed; fastestCarrier = cov.carrier; }
+            if (p.price > 0 && p.price < lowestPrice) { lowestPrice = p.price; cheapestCarrier = cov.carrier; }
+          });
+        }
+      }
+    });
+
+    const uniqueCarriers = Array.from(activeCarriersMap.values());
+    if (lowestPrice === 999) lowestPrice = 49.99; // Fallback
+    
+    const editorPick = uniqueCarriers.sort((a, b) => (b.rating || 0) - (a.rating || 0))[0] || fastestCarrier || uniqueCarriers[0];
+    const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const visitorsThisWeek = 142 + (locations.length * 3);
+
+    // 3. Generate FAQ Schema
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -115,7 +118,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            Rates Verified & Updated: {currentDate}
+            Rates Verified & Updated: <span suppressHydrationWarning>{currentDate}</span>
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-lg leading-tight">
@@ -202,7 +205,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
 
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-400 text-xs font-black uppercase tracking-widest mb-4">
-                  ðŸ† Editor's Pick {new Date().getFullYear()}
+                  ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬Â  Editor's Pick {new Date().getFullYear()}
                 </div>
                 <h2 className="text-3xl font-black text-white mb-2">{editorPick?.name || 'Top Local Provider'}</h2>
                 <div className="flex items-center gap-1 text-yellow-400 mb-6">
@@ -249,4 +252,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
       <Footer />
     </main>
   )
+  } catch (error: any) {
+    return <div className="p-20 text-red-500 font-bold bg-black min-h-screen"><h1>CRASH DETAILS:</h1><pre>{error.message}</pre><pre>{error.stack}</pre></div>;
+  }
 }
