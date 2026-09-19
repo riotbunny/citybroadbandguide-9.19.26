@@ -17,7 +17,7 @@ export default function GeoLocator() {
     
     const res = await getRouteByZip(zip);
     if (res.url) {
-      router.push(res.url);
+      router.push(res.url + '#providers');
     } else {
       setError(res.error || 'Location not found.');
       setLoading(false);

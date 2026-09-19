@@ -4,7 +4,6 @@ import LocalRatings from '../../../../../components/LocalRatings'
 import { Metadata } from 'next'
 import Navbar from '../../../../../components/Navbar'
 import SortDropdown from '../../../../../components/SortDropdown'
-import GeoLocator from '../../../../../components/GeoLocator'
 
 const prisma = new PrismaClient()
 
@@ -234,14 +233,11 @@ const location = await prisma.location.findUnique({
              Rates Updated: {currentMonthYear}
           </div>
           
-          <div className="mt-12 max-w-md mx-auto">
-            <p className="text-slate-400 text-sm font-semibold mb-3">Not shopping in {cityName}? Change zip code:</p>
-            <GeoLocator />
-          </div>
+          
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 -mt-20 relative z-20 w-full mb-8">
+      <div id="providers" className="max-w-7xl mx-auto px-4 -mt-20 relative z-20 w-full mb-8">
         {availableCarriers.length > 0 && (
           <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8 mb-10 flex flex-col lg:flex-row items-center justify-between gap-8 backdrop-blur-xl">
             <div className="flex items-center gap-5 w-full lg:w-auto">
@@ -323,7 +319,7 @@ const location = await prisma.location.findUnique({
                   {carrier.isTopPick && (
                     <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[10px] font-black uppercase tracking-wider py-1 px-3 rounded-bl-xl shadow-md z-20 flex items-center gap-1.5 border-b border-l border-white/20">
                       <div className="bg-white rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
-                        <span className="text-[13px] leading-none block -mt-[1px]">🔥</span>
+                        <span className="text-[13px] leading-none block -mt-[1px]">ðŸ”¥</span>
                       </div>
                       <span className="tracking-widest pr-1">TOP PICK</span>
                     </div>
