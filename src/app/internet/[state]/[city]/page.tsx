@@ -1,9 +1,12 @@
+export const dynamic = 'force-dynamic';
 import { PrismaClient } from '@prisma/client'
 import { Metadata } from 'next'
 import Navbar from '../../../../components/Navbar'
 import Footer from '../../../../components/Footer'
 import GeoLocator from '../../../../components/GeoLocator'
 import Link from 'next/link'
+import JumpButton from '../../../../components/JumpButton';
+
 
 const prisma = new PrismaClient()
 
@@ -139,21 +142,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
           </p>
 
           {/* Micro-Commitment & Locator Box */}
-                    {/* CSS Animation for the Anchor Jump */}
-          <style dangerouslySetInnerHTML={{__html: 
-            @keyframes attention {
-              0%, 100% { transform: translateX(0) scale(1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.1); }
-              15% { transform: translateX(-8px) scale(1.02); box-shadow: 0 0 40px rgba(250, 204, 21, 0.8); border-color: rgba(250, 204, 21, 1); }
-              30% { transform: translateX(8px) scale(1.02); }
-              45% { transform: translateX(-8px) scale(1.02); }
-              60% { transform: translateX(8px) scale(1.02); }
-              75% { transform: translateX(-4px) scale(1.02); box-shadow: 0 0 40px rgba(250, 204, 21, 0.8); border-color: rgba(250, 204, 21, 1); }
-            }
-            #locator:target {
-              animation: attention 1s cubic-bezier(.36,.07,.19,.97) both;
-            }
-          }} />
-          <div id="locator" className="max-w-xl mx-auto bg-white/5 p-1 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl relative mb-4">
+                    <div id="locator" className="max-w-xl mx-auto bg-white/5 p-1 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl relative mb-4">
             <div className="bg-slate-900/50 rounded-[22px] p-6 md:p-8">
               <p className="text-white text-lg md:text-xl font-bold mb-5 text-center drop-shadow-sm">
                 Enter your zip code to see exactly who covers your street:
@@ -242,9 +231,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
               </div>
               
               <div className="mt-4">
-                <a href="#locator" className="w-full block text-center bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-900 font-black text-lg py-4 rounded-xl shadow-lg transition-all hover:scale-[1.02]">
-                  Check Zip Code Availability
-                </a>
+                <JumpButton />
               </div>
             </div>
           </div>
