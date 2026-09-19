@@ -205,7 +205,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
 
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-400 text-xs font-black uppercase tracking-widest mb-4">
-                  ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬Â  Editor's Pick {new Date().getFullYear()}
+                &#127942; EDITOR'S PICK {new Date().getFullYear()}
                 </div>
                 <h2 className="text-3xl font-black text-white mb-2">{editorPick?.name || 'Top Local Provider'}</h2>
                 <div className="flex items-center gap-1 text-yellow-400 mb-6">
