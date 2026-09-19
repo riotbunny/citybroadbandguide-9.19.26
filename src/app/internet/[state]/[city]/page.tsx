@@ -50,26 +50,34 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
       }
     });
 
+    const nationwideCarriers = await prisma.carrier.findMany({
+      where: { isNationwide: true, isActive: true },
+      include: { plans: true }
+    });
+
     const activeCarriersMap = new Map();
     let highestSpeed = 0;
     let fastestCarrier: any = null;
     let lowestPrice = 999;
     let cheapestCarrier: any = null;
 
-    coverages.forEach(cov => {
-      if (cov.carrier && cov.carrier.isActive) {
-        if (!activeCarriersMap.has(cov.carrier.id)) {
-          activeCarriersMap.set(cov.carrier.id, cov.carrier);
+    const processCarrier = (carrier: any) => {
+      if (carrier && carrier.isActive) {
+        if (!activeCarriersMap.has(carrier.id)) {
+          activeCarriersMap.set(carrier.id, carrier);
         }
-        if (cov.carrier.plans) {
-          cov.carrier.plans.forEach((p: any) => {
+        if (carrier.plans) {
+          carrier.plans.forEach((p: any) => {
             const speed = Math.max(p.downloadSpeed || 0, p.uploadSpeed || 0);
-            if (speed > highestSpeed) { highestSpeed = speed; fastestCarrier = cov.carrier; }
-            if (p.price > 0 && p.price < lowestPrice) { lowestPrice = p.price; cheapestCarrier = cov.carrier; }
+            if (speed > highestSpeed) { highestSpeed = speed; fastestCarrier = carrier; }
+            if (p.price > 0 && p.price < lowestPrice) { lowestPrice = p.price; cheapestCarrier = carrier; }
           });
         }
       }
-    });
+    };
+
+    coverages.forEach(cov => processCarrier(cov.carrier));
+    nationwideCarriers.forEach(carrier => processCarrier(carrier));
 
     const uniqueCarriers = Array.from(activeCarriersMap.values());
     if (lowestPrice === 999) lowestPrice = 49.99; // Fallback
