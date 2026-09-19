@@ -319,7 +319,7 @@ const location = await prisma.location.findUnique({
                   {carrier.isTopPick && (
                     <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[10px] font-black uppercase tracking-wider py-1 px-3 rounded-bl-xl shadow-md z-20 flex items-center gap-1.5 border-b border-l border-white/20">
                       <div className="bg-white rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
-                        <span className="text-[13px] leading-none block -mt-[1px]">ðŸ”¥</span>
+                        <span className="text-[13px] leading-none block -mt-[1px]">&#128293;</span>
                       </div>
                       <span className="tracking-widest pr-1">TOP PICK</span>
                     </div>
