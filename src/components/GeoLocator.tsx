@@ -29,7 +29,7 @@ export default function GeoLocator() {
       {/* Glow Effect */}
       <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
       
-      <form onSubmit={handleZipSubmit} className="relative bg-white rounded-2xl shadow-2xl flex items-center p-1.5 border border-slate-100">
+      <form onSubmit={handleZipSubmit} className="relative bg-white rounded-2xl shadow-2xl flex flex-col sm:flex-row p-2 border border-slate-100 gap-2">
         
         <input 
           type="text" 
@@ -37,13 +37,13 @@ export default function GeoLocator() {
           onChange={(e) => setZip(e.target.value.replace(/[^0-9]/g, ''))} 
           placeholder="Enter Zip Code" 
           maxLength={5}
-          className="w-full bg-transparent text-slate-900 placeholder:text-slate-400 font-extrabold text-xl md:text-2xl px-6 py-3.5 outline-none tracking-widest text-center"
+          className="w-full bg-transparent text-slate-900 placeholder:text-slate-400 font-extrabold text-2xl px-4 py-4 sm:py-3.5 outline-none tracking-widest text-center"
         />
 
         <button 
           type="submit" 
           disabled={loading || zip.length < 5}
-          className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:hover:bg-indigo-600 text-white font-black text-base md:text-lg py-3.5 px-8 md:px-10 rounded-xl transition-all shadow-md whitespace-nowrap uppercase tracking-widest active:scale-95"
+          className="w-full sm:w-auto flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:hover:bg-indigo-600 text-white font-black text-lg py-4 sm:py-3.5 px-8 sm:px-10 rounded-xl transition-all shadow-md whitespace-nowrap uppercase tracking-widest active:scale-95"
         >
           {loading ? 'Searching...' : 'Find Providers'}
         </button>

@@ -132,7 +132,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
             Rates Verified & Updated: <span suppressHydrationWarning>{currentDate}</span>
           </div>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-lg leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-lg leading-tight">
             Internet Providers in <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">{cityClean}, {stateUpper}</span>
           </h1>
@@ -148,7 +148,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
                 Enter your zip code to see exactly who covers your street:
               </p>
               <GeoLocator />
-              <div className="flex items-center justify-center gap-4 mt-5 text-xs font-bold text-slate-400 uppercase tracking-widest">
+              <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 mt-5 text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">
                 <span className="flex items-center gap-1"><svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg> 100% Free</span>
                 <span className="flex items-center gap-1"><svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg> Zero Ads</span>
                 <span className="flex items-center gap-1"><svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg> No Credit Check</span>
