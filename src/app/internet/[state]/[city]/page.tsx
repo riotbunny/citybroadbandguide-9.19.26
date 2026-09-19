@@ -221,7 +221,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
               
               <div className="mt-4">
                 <a href="#locator" className="w-full block text-center bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-900 font-black text-lg py-4 rounded-xl shadow-lg transition-all hover:scale-[1.02]">
-                  Check Exact Address
+                  Check Zip Code Availability
                 </a>
               </div>
             </div>
