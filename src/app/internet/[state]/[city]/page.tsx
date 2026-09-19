@@ -128,7 +128,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
           </p>
 
           {/* Micro-Commitment & Locator Box */}
-          <div className="max-w-xl mx-auto bg-white/5 p-1 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl relative mb-4">
+          <div id="locator" className="max-w-xl mx-auto bg-white/5 p-1 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl relative mb-4">
             <div className="bg-slate-900/50 rounded-[22px] p-6 md:p-8">
               <p className="text-white text-lg md:text-xl font-bold mb-5 text-center drop-shadow-sm">
                 Enter your zip code to see exactly who covers your street:
@@ -202,7 +202,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
 
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-400 text-xs font-black uppercase tracking-widest mb-4">
-                  🏆 Editor's Pick {new Date().getFullYear()}
+                  ðŸ† Editor's Pick {new Date().getFullYear()}
                 </div>
                 <h2 className="text-3xl font-black text-white mb-2">{editorPick?.name || 'Top Local Provider'}</h2>
                 <div className="flex items-center gap-1 text-yellow-400 mb-6">
@@ -217,9 +217,9 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
               </div>
               
               <div className="mt-4">
-                <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="w-full block text-center bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-900 font-black text-lg py-4 rounded-xl shadow-lg transition-all hover:scale-[1.02]">
+                <a href="#locator" className="w-full block text-center bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-900 font-black text-lg py-4 rounded-xl shadow-lg transition-all hover:scale-[1.02]">
                   Check Exact Address
-                </button>
+                </a>
               </div>
             </div>
           </div>
