@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 export default async function FastestCitiesReport() {
   // Aggregate real backend data for the PR report
   const activePlans = await prisma.plan.findMany({
-    where: { downloadSpeed: { gt: 0 } },
+    where: { downloadSpeed: { gt: 0, lte: 10000 } }, // Cap at 10 Gbps to filter out 50G commercial/enthusiast tiers
     orderBy: { downloadSpeed: 'desc' },
     take: 10,
     include: { carrier: true }
@@ -47,7 +47,12 @@ export default async function FastestCitiesReport() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-black text-indigo-600">{plan.downloadSpeed} <span className="text-sm text-slate-400 uppercase tracking-widest">Mbps</span></div>
+                  <div className="text-2xl font-black text-indigo-600">
+                    {plan.downloadSpeed >= 1000 ? (plan.downloadSpeed / 1000) : plan.downloadSpeed} 
+                    <span className="text-sm text-slate-400 uppercase tracking-widest ml-1">
+                      {plan.downloadSpeed >= 1000 ? 'Gbps' : 'Mbps'}
+                    </span>
+                  </div>
                   <div className="text-xs font-bold text-slate-400 mt-1">Starting at ${plan.price}/mo</div>
                 </div>
               </li>
