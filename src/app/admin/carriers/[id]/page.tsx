@@ -178,13 +178,13 @@ export default async function EditCarrierPage({
         
         {carrier.plans.length > 0 ? (
           <div className="mb-8 overflow-hidden border border-slate-200 rounded-lg">
-            <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto rounded-xl border-x border-slate-100"><table className="w-full text-left border-collapse min-w-[1000px]">
               <thead className="bg-slate-50">
                 <tr>
-                  <th className="p-4 border-b font-semibold text-slate-600">Plan Name</th>
-                  <th className="p-4 border-b font-semibold text-slate-600">Speed (DL / UL)</th>
+                  <th className="p-4 border-b font-semibold text-slate-600 w-1/4 min-w-[180px]">Plan Name</th>
+                  <th className="p-4 border-b font-semibold text-slate-600 min-w-[220px]">Speed (DL / UL)</th>
                   <th className="p-4 border-b font-semibold text-slate-600">Price/mo</th>
-                  <th className="p-4 border-b font-semibold text-slate-600 w-1/3">FCC Data & Details</th>
+                  <th className="p-4 border-b font-semibold text-slate-600 w-2/5 min-w-[350px]">FCC Data & Details</th>
                   <th className="p-4 border-b font-semibold text-slate-600">Action</th>
                 </tr>
               </thead>
@@ -192,7 +192,7 @@ export default async function EditCarrierPage({
                   {carrier.plans.map(plan => (
                     <tr key={plan.id} className="hover:bg-slate-50 transition">
                       <td className="p-4">
-                        <input type="text" name="name" defaultValue={plan.name} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-full text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-blue-500" />
+                        <input type="text" name="name" defaultValue={plan.name} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-full min-w-[180px] text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-blue-500" />
                       </td>
                       <td className="p-4 flex items-center gap-2">
                         <input type="number" name="downloadSpeed" defaultValue={plan.downloadSpeed || ''} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-20 text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="DL" /> <span className="text-xs text-slate-500 font-bold">Mbps</span>
