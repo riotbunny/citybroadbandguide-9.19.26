@@ -1,15 +1,18 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  // In production, you would swap this to your actual domain
-  const baseUrl = 'https://citybroadbandguide.com'
-
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin/', '/api/'],
+      disallow: [
+        '/admin/', 
+        '/login',
+        '/*?*', // Block all faceted query parameters from indexation to preserve crawl budget
+        '/*/cheapest$', // Block long-tail programmatic doorways
+        '/*/fastest$'
+      ],
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: 'https://citybroadbandguide.com/sitemap.xml',
   }
 }
