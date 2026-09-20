@@ -35,26 +35,8 @@ export default async function StateHub({ params }: { params: Promise<{ state: st
     notFound();
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": `How many cities are covered in ${stateUpper}?`,
-        "acceptedAnswer": { "@type": "Answer", "text": `We have mapped internet provider data across ${cities.length} cities and ${totalZips} zip codes in ${stateUpper}.` }
-      },
-      {
-        "@type": "Question",
-        "name": `How can I find the best internet provider in ${stateUpper}?`,
-        "acceptedAnswer": { "@type": "Answer", "text": `Simply select your city from our directory or enter your zip code into our geo-locator to instantly compare speeds, pricing, and availability for all local and nationwide carriers operating in your exact area.` }
-      }
-    ]
-  };
-
   return (
     <main className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       
       <div className="bg-slate-950 pt-32 pb-24 px-4 relative overflow-hidden">

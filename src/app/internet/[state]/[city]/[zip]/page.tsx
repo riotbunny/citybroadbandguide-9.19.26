@@ -25,10 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   
   const activeCarriers = location.coverages.filter(c => c.carrier.isActive);
   
-  // Deterministic UGC (Anti-Spam Shield)
-  const zipNum = parseInt(zip) || 75201;
-  const ratingValueUI = (4.0 + (zipNum % 10) / 10).toFixed(1);
-  const reviewCountUI = 12 + (zipNum % 88);
+  
 
   // Hyper-Local AI-Style Copy Variables
   let maxSpeedUI = 0;
@@ -54,8 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `Best Internet Providers in ${cityName}, ${stateUpper} ${location.zip} | ${currentYear} Comparison`,
     description: `Compare the fastest and cheapest internet providers in ${cityName}, ${stateUpper} (${location.zip}). Find fiber and cable plans from top carriers available at your exact address.`,
-    alternates: { canonical: `https://yourwebsite.com/internet/${state.toLowerCase()}/${city.toLowerCase()}/${zip}` },
-    robots: activeCarriers.length > 0 ? { index: true, follow: true } : { index: false, follow: true }
+    alternates: { canonical: `https://yourwebsite.com/internet/${state.toLowerCase()}/${city.toLowerCase()}/${zip}` }
   }
 }
 
@@ -145,28 +141,14 @@ const location = await prisma.location.findUnique({
     const maxPlan = c.plans?.length ? Math.max(...c.plans.map((p: any) => Math.max(p.downloadSpeed || 0, p.uploadSpeed || 0))) : 0;
     return maxPlan > max ? maxPlan : max;
   }, 0);
-  const zipNum = parseInt(zip) || 75201;
-  const ratingValueUI = (4.0 + (zipNum % 10) / 10).toFixed(1);
-  const reviewCountUI = 12 + (zipNum % 88);
+  
 
-  const jsonLd = [
+    const jsonLd = [
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": `Internet Providers in ${cityName}, ${stateUpper} ${location.zip}`,
-      "description": `Comparison of internet providers available in ${location.zip}.`,
-
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValueUI": ratingValueUI,
-          "reviewCountUI": reviewCountUI
-        },
-
-      "provider": availableCarriers.map(c => ({
-        "@type": "Organization",
-        "name": c.name,
-        "url": c.affiliateUrl || `https://yourwebsite.com/providers/${c.slug}`
-      }))
+      "description": `Comparison of internet providers available in ${location.zip}.`
     },
     {
       "@context": "https://schema.org",
@@ -180,25 +162,16 @@ const location = await prisma.location.findUnique({
     },
     {
       "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": `What is the fastest internet provider in ${location.zip}?`,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": `The fastest internet provider currently mapped in ${location.zip} offers speeds up to ${highestOverallSpeed} Mbps.`
-          }
-        },
-        {
-          "@type": "Question",
-          "name": `How much does internet cost in ${cityName}, ${stateUpper}?`,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": `Internet plans in ${cityName} start at roughly $${Math.floor(lowestOverallPrice !== Infinity ? lowestOverallPrice : 50)} per month depending on the speed tier and connection type.`
-          }
+      "@type": "ItemList",
+      "itemListElement": availableCarriers.map((c, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Organization",
+          "name": c.name,
+          "url": c.affiliateUrl || `https://yourwebsite.com/providers/${c.slug}`
         }
-      ]
+      }))
     }
   ];
 
