@@ -277,6 +277,17 @@ export async function updatePlan(planId: string, carrierId: string, formData: Fo
   const postPromoPriceStr = formData.get('postPromoPrice') as string;
   const peakLatencyStr = formData.get('peakLatency') as string;
   const dataCap = formData.get('dataCap') as string;
+  let fccLabelPath = undefined;
+  const fccLabel = formData.get('fccLabel') as File | null;
+  if (fccLabel && fccLabel.size > 0) {
+    const buffer = Buffer.from(await fccLabel.arrayBuffer());
+    const safeName = fccLabel.name.replace(/[^a-zA-Z0-9.-]/g, '');
+    const filename = `fcc-${Date.now()}-${safeName}`;
+    const filepath = path.join(process.cwd(), 'public', 'labels', filename);
+    await fs.mkdir(path.dirname(filepath), { recursive: true });
+    await fs.writeFile(filepath, buffer);
+    fccLabelPath = `/labels/${filename}`;
+  }
   const postPromoPrice = postPromoPriceStr ? parseFloat(postPromoPriceStr) : null;
   const peakLatency = peakLatencyStr ? parseInt(peakLatencyStr) : null;
   const downloadSpeed = parseInt(formData.get('downloadSpeed') as string);
