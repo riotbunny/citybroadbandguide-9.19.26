@@ -63,7 +63,7 @@ export default function SpeedTestWidget({ zip }: { zip: string }) {
   };
 
   return (
-    <div className="bg-slate-900 rounded-3xl shadow-2xl p-8 mb-12 text-white overflow-hidden relative">
+    <div className="bg-slate-900 rounded-3xl shadow-2xl p-6 md:p-8 mb-12 text-white overflow-hidden relative">
       <div className="absolute top-0 left-0 w-full h-1 bg-slate-800">
         <div 
           className="h-full bg-gradient-to-r from-emerald-400 to-indigo-500 transition-all duration-300 ease-out"
@@ -77,18 +77,18 @@ export default function SpeedTestWidget({ zip }: { zip: string }) {
           <p className="text-slate-400 text-sm">Help us build accurate, real-world data for your neighborhood by testing your current connection.</p>
         </div>
         
-        <div className="flex flex-1 items-center justify-center gap-6 md:gap-12 w-full">
+        <div className="flex flex-1 items-center justify-center gap-4 md:gap-12 w-full">
           <div className="text-center">
             <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Ping</div>
-            <div className="text-3xl font-black text-slate-200">{ping > 0 ? ping : '--'} <span className="text-sm text-slate-500 font-bold">ms</span></div>
+            <div className="text-2xl md:text-3xl font-black text-slate-200">{ping > 0 ? ping : '--'} <span className="text-sm text-slate-500 font-bold">ms</span></div>
           </div>
           <div className="text-center">
             <div className={`text-xs font-bold uppercase tracking-widest mb-1 ${status === 'downloading' ? 'text-emerald-400 animate-pulse' : 'text-slate-500'}`}>Download</div>
-            <div className="text-3xl font-black text-white">{download > 0 ? download.toFixed(1) : '--'} <span className="text-sm text-slate-500 font-bold">Mbps</span></div>
+            <div className="text-2xl md:text-3xl font-black text-white">{download > 0 ? download.toFixed(1) : '--'} <span className="text-sm text-slate-500 font-bold">Mbps</span></div>
           </div>
           <div className="text-center">
             <div className={`text-xs font-bold uppercase tracking-widest mb-1 ${status === 'uploading' ? 'text-indigo-400 animate-pulse' : 'text-slate-500'}`}>Upload</div>
-            <div className="text-3xl font-black text-white">{upload > 0 ? upload.toFixed(1) : '--'} <span className="text-sm text-slate-500 font-bold">Mbps</span></div>
+            <div className="text-2xl md:text-3xl font-black text-white">{upload > 0 ? upload.toFixed(1) : '--'} <span className="text-sm text-slate-500 font-bold">Mbps</span></div>
           </div>
         </div>
         
@@ -96,7 +96,7 @@ export default function SpeedTestWidget({ zip }: { zip: string }) {
           {status === 'idle' ? (
             <button 
               onClick={startTest}
-              className="px-8 py-4 bg-white text-slate-900 rounded-xl font-black uppercase tracking-wider text-sm hover:scale-105 hover:bg-emerald-50 transition-all shadow-lg hover:shadow-emerald-500/20"
+              className="px-6 md:px-8 py-4 bg-white text-slate-900 rounded-xl font-black uppercase tracking-wider text-sm hover:scale-105 hover:bg-emerald-50 transition-all shadow-lg hover:shadow-emerald-500/20"
             >
               Start Test
             </button>

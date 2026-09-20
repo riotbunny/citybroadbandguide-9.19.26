@@ -366,9 +366,10 @@ const location = await prisma.location.findUnique({
                         {carrier.disclaimer}
                       </p>
                     )}
-                    <a href={`/providers/${carrier.slug}?city=${encodeURIComponent(location.city)}&state=${encodeURIComponent(location.state)}`} className="w-full py-3.5 px-4 rounded-xl font-black uppercase tracking-wider text-center text-sm transition-all shadow-md active:scale-[0.98] border-2 bg-white hover:bg-slate-50" style={{ borderColor: carrier.brandColor || '#4f46e5', color: carrier.brandColor || '#4f46e5' }}>
-                        See Plans
-                      </a>
+                    <a href={`/providers/${carrier.slug}?city=${encodeURIComponent(location.city)}&state=${encodeURIComponent(location.state)}`} className="w-full py-4 px-4 rounded-xl font-black uppercase tracking-wider text-center text-[13px] md:text-sm transition-all shadow-lg active:scale-[0.98] border-2 bg-indigo-600 hover:bg-indigo-700 text-white border-transparent flex items-center justify-center gap-2">
+    Check Availability
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+  </a>
                   </div>
                 </div>
               );
