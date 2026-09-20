@@ -58,7 +58,7 @@ export default async function EditCarrierPage({
       {success && <AutoDismissBanner timestamp={success} />}
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <form action={updateCarrier.bind(null, carrier.id)} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-fit">
+        <form encType="multipart/form-data" action={updateCarrier.bind(null, carrier.id)} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-fit">
           <h2 className="text-xl font-bold text-slate-800 mb-6 border-b pb-2">Carrier Details</h2>
           <div className="mb-4">
             <label className="block text-sm font-semibold text-slate-700 mb-1">Update Logo Image (Optional)</label>
@@ -160,7 +160,7 @@ export default async function EditCarrierPage({
               {groupedArray.map(group => (
                 <div key={`${group.city}-${group.state}`} className="p-3 text-sm flex justify-between items-center hover:bg-slate-50 transition">
                   <span className="font-medium text-slate-800">{group.city}, {group.state} <span className="text-slate-400 font-normal ml-2">({group.count} zips)</span></span>
-                  <form action={removeCoverageByCity.bind(null, carrier.id)}>
+                  <form encType="multipart/form-data" action={removeCoverageByCity.bind(null, carrier.id)}>
                     <input type="hidden" name="cities" value={group.city} />
                     <input type="hidden" name="state" value={group.state} />
                     <button type="submit" className="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-md font-semibold text-xs transition border border-red-200">Remove</button>
@@ -184,7 +184,7 @@ export default async function EditCarrierPage({
                   <th className="p-4 border-b font-semibold text-slate-600">Plan Name</th>
                   <th className="p-4 border-b font-semibold text-slate-600">Speed (DL / UL)</th>
                   <th className="p-4 border-b font-semibold text-slate-600">Price/mo</th>
-                  <th className="p-4 border-b font-semibold text-slate-600">Details</th>
+                  <th className="p-4 border-b font-semibold text-slate-600 w-1/3">FCC Data & Details</th>
                   <th className="p-4 border-b font-semibold text-slate-600">Action</th>
                 </tr>
               </thead>
@@ -204,15 +204,25 @@ export default async function EditCarrierPage({
                           $<input type="number" step="0.01" name="price" defaultValue={plan.price > 0 ? plan.price : ''} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-20 text-sm font-bold text-green-600 ml-1 outline-none focus:ring-2 focus:ring-green-500" />
                         </div>
                       </td>
-                      <td className="p-4">
-                        <input type="text" name="description" defaultValue={plan.description || ''} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-full text-sm text-slate-600 outline-none focus:ring-2 focus:ring-blue-500" placeholder="Details..." />
-                      </td>
+                      <td className="p-4 space-y-2">
+                          <input type="text" name="description" defaultValue={plan.description || ''} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-full text-sm text-slate-600 outline-none focus:ring-2 focus:ring-blue-500" placeholder="Description..." />
+                          <div className="flex gap-2">
+                            <input type="number" step="0.01" name="postPromoPrice" defaultValue={plan.postPromoPrice || ''} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-1/3 text-xs" placeholder="Post-Promo $" />
+                            <input type="number" name="peakLatency" defaultValue={plan.peakLatency || ''} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-1/3 text-xs" placeholder="Latency ms" />
+                            <input type="text" name="dataCap" defaultValue={plan.dataCap || ''} form={"edit-plan-" + plan.id} className="border border-slate-200 p-2 rounded w-1/3 text-xs" placeholder="Data Cap" />
+                          </div>
+                          <div className="flex items-center gap-2 mt-2 bg-slate-50 p-2 rounded border border-slate-100">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase">FCC Label Img:</span>
+                            <input type="file" name="fccLabel" accept="image/*" form={"edit-plan-" + plan.id} className="text-xs text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+                            {plan.fccLabelImage && <a href={plan.fccLabelImage} target="_blank" className="text-xs font-bold text-indigo-500 underline ml-auto">View</a>}
+                          </div>
+                        </td>
                       <td className="p-4">
                         <div className="flex gap-4 items-center">
-                          <form id={"edit-plan-" + plan.id} action={updatePlan.bind(null, plan.id, carrier.id)}>
+                          <form id={"edit-plan-" + plan.id} encType="multipart/form-data" action={updatePlan.bind(null, plan.id, carrier.id)}>
                             <button type="submit" className="text-emerald-600 hover:text-emerald-800 font-bold text-sm hover:underline">Save</button>
                           </form>
-                          <form action={removePlan.bind(null, plan.id, carrier.id)}>
+                          <form encType="multipart/form-data" action={removePlan.bind(null, plan.id, carrier.id)}>
                             <button type="submit" className="text-red-500 hover:text-red-700 font-semibold text-sm hover:underline">Remove</button>
                           </form>
                         </div>
@@ -228,7 +238,7 @@ export default async function EditCarrierPage({
 
         <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
           <h3 className="font-bold text-slate-800 mb-4 text-lg">Add New Plan</h3>
-          <form action={addPlan.bind(null, carrier.id)}>
+          <form encType="multipart/form-data" action={addPlan.bind(null, carrier.id)}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Plan Name *</label>
@@ -265,7 +275,7 @@ export default async function EditCarrierPage({
               <h3 className="text-xl font-bold text-red-900 mb-1">Delete Provider Permanently</h3>
               <p className="text-sm font-medium text-red-700">This will instantly wipe this brand, all of its pricing tiers, and all of its geographic coverage mappings from the database. This action is permanent and cannot be undone.</p>
             </div>
-            <form action={deleteCarrier.bind(null, carrier.id)}>
+            <form encType="multipart/form-data" action={deleteCarrier.bind(null, carrier.id)}>
               <button type="submit" className="bg-red-600 hover:bg-red-800 text-white font-black py-4 px-8 rounded-xl transition-all shadow-md whitespace-nowrap">
                 DELETE PROVIDER
               </button>

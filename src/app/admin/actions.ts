@@ -135,6 +135,18 @@ export async function addPlan(carrierId: string, formData: FormData) {
   const postPromoPriceStr = formData.get('postPromoPrice') as string;
   const peakLatencyStr = formData.get('peakLatency') as string;
   const dataCap = formData.get('dataCap') as string;
+
+  let fccLabelPath = undefined;
+  const fccLabel = formData.get('fccLabel') as File | null;
+  if (fccLabel && fccLabel.size > 0) {
+    const buffer = Buffer.from(await fccLabel.arrayBuffer());
+    const safeName = fccLabel.name.replace(/[^a-zA-Z0-9.-]/g, '');
+    const filename = `fcc-${Date.now()}-${safeName}`;
+    const filepath = path.join(process.cwd(), 'public', 'labels', filename);
+    await fs.mkdir(path.dirname(filepath), { recursive: true });
+    await fs.writeFile(filepath, buffer);
+    fccLabelPath = `/labels/${filename}`;
+  }
   const postPromoPrice = postPromoPriceStr ? parseFloat(postPromoPriceStr) : null;
   const peakLatency = peakLatencyStr ? parseInt(peakLatencyStr) : null;
   const downloadSpeedStr = formData.get('downloadSpeed') as string;
@@ -154,7 +166,8 @@ export async function addPlan(carrierId: string, formData: FormData) {
       dataCap,
       downloadSpeed,
       uploadSpeed,
-      description
+      description,
+      fccLabelImage: fccLabelPath
     }
   });
   revalidatePath(`/admin/carriers/${carrierId}`);
@@ -272,7 +285,7 @@ export async function updatePlan(planId: string, carrierId: string, formData: Fo
 
   await prisma.plan.update({
     where: { id: planId },
-    data: { name, price, postPromoPrice, peakLatency, dataCap, downloadSpeed, uploadSpeed, description }
+    data: { name, price, postPromoPrice, peakLatency, dataCap, downloadSpeed, uploadSpeed, description, ...(fccLabelPath && { fccLabelImage: fccLabelPath }) }
   });
   
   revalidatePath('/admin/carriers/' + carrierId);
