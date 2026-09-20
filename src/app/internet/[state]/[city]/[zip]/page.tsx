@@ -331,6 +331,29 @@ const location = await prisma.location.findUnique({
                   </div>
                   
                   <div className="mt-auto pt-6 border-t border-slate-100 flex flex-col gap-3">
+                    
+                    {/* FCC Regulatory Data (PSEO Value Injection) */}
+                    <div className="mt-5 pt-5 border-t border-slate-100 flex flex-wrap gap-x-4 gap-y-2 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                      {(() => {
+                        const allLatencies = carrier.plans?.map((p: any) => p.peakLatency).filter(Boolean) || [];
+                        const allDataCaps = [...new Set(carrier.plans?.map((p: any) => p.dataCap).filter(Boolean))] || [];
+                        const allPostPromos = carrier.plans?.map((p: any) => p.postPromoPrice).filter(Boolean) || [];
+                        
+                        const minLat = allLatencies.length ? Math.min(...allLatencies) : null;
+                        const minPost = allPostPromos.length ? Math.min(...allPostPromos) : null;
+                        const capDisplay = allDataCaps.length ? allDataCaps.join(', ') : null;
+
+                        if (!minLat && !minPost && !capDisplay) return null;
+
+                        return (
+                          <>
+                            {minPost && <span className="flex items-center gap-1"><span className="text-slate-400">Post-Promo:</span><span className="text-slate-800">From $\{minPost}/mo</span></span>}
+                            {minLat && <span className="flex items-center gap-1"><span className="text-slate-400">Peak Latency:</span><span className="text-slate-800">~\{minLat}ms</span></span>}
+                            {capDisplay && <span className="flex items-center gap-1"><span className="text-slate-400">Data Cap:</span><span className="text-slate-800">\{capDisplay}</span></span>}
+                          </>
+                        );
+                      })()}
+                    </div>
                     {carrier.disclaimer && (
                       <p className="text-[11px] leading-tight text-slate-500 italic text-center px-2 mb-1">
                         {carrier.disclaimer}
