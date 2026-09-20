@@ -14,14 +14,14 @@ export default function SpeedTestWidget({ zip }: { zip: string }) {
     
     // Simulate Ping
     setTimeout(() => {
-      setPing(Math.floor(Math.random() * 30) + 12); // 12-42ms
+      setPing(Math.floor(Math.random() * 38) + 18); // 18-56ms (Realistic Cable/DSL Ping) // 12-42ms
       setStatus('downloading');
       
       // Simulate Download
       let downVal = 0;
-      const downTarget = Math.floor(Math.random() * 800) + 150; // 150-950 Mbps
+      const downTarget = Math.floor(Math.random() * 220) + 45; // 45-265 Mbps (Realistic US Average)
       const downInterval = setInterval(() => {
-        downVal += (downTarget - downVal) * 0.2 + (Math.random() * 20);
+        downVal += (downTarget - downVal) * 0.15 + (Math.random() * 5);
         setDownload(Math.min(downVal, downTarget));
         setProgress(p => Math.min(p + 2, 50));
         
@@ -32,9 +32,9 @@ export default function SpeedTestWidget({ zip }: { zip: string }) {
           
           // Simulate Upload
           let upVal = 0;
-          const upTarget = Math.floor(Math.random() * 200) + 20; // 20-220 Mbps
+          const upTarget = Math.floor(Math.random() * 25) + 10; // 10-35 Mbps (Realistic Asymmetrical Cable Upload)
           const upInterval = setInterval(() => {
-            upVal += (upTarget - upVal) * 0.2 + (Math.random() * 5);
+            upVal += (upTarget - upVal) * 0.15 + (Math.random() * 2);
             setUpload(Math.min(upVal, upTarget));
             setProgress(p => Math.min(p + 3, 100));
             
