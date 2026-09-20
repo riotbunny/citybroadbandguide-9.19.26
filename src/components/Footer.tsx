@@ -6,7 +6,7 @@ export default function Footer() {
         <div className="pr-4">
           <div className="flex items-center gap-3 mb-6">
             <svg className="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            <span className="text-xl font-black text-white tracking-tighter">City Broadband Guide.</span>
+            <span className="text-xl font-black text-white tracking-tighter">City Broadband Guide</span>
           </div>
           <p className="text-sm text-slate-500 leading-relaxed font-medium mb-6">
             We analyze millions of data points every day to help Americans find the absolute best internet providers secretly available at their exact address.
