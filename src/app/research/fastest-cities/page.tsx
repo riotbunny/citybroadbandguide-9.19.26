@@ -24,7 +24,7 @@ export default async function FastestCitiesReport() {
       <Navbar />
       <div className="pt-32 pb-24 px-4 max-w-4xl mx-auto w-full flex-grow">
         <div className="mb-6 inline-block bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
-          Original Research Ã¢â‚¬Â¢ Fall 2026
+          Original Research &mdash; Fall 2026
         </div>
         <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">The Top 10 Fastest Broadband Hubs in America</h1>
         <div className="prose prose-lg text-slate-600 mb-12">
