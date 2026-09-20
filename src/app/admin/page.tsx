@@ -86,7 +86,7 @@ export default async function AdminDashboard() {
                 <td className="p-4">
                   <form action={toggleTopPick.bind(null, c.id, !c.isTopPick)}>
                     <button type="submit" className={`px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition cursor-pointer border ${c.isTopPick ? 'bg-amber-100 text-amber-700 border-amber-300 hover:bg-amber-200' : 'bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100'}`} title="Click to feature this carrier globally">
-                      {c.isTopPick ? 'â˜… Featured' : 'â˜† Set Top Pick'}
+                      {c.isTopPick ? '\u2605 Featured' : '\u2606 Set Top Pick'}
                     </button>
                   </form>
                 </td>
