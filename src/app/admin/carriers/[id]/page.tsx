@@ -229,10 +229,7 @@ export default async function EditCarrierPage({
                       </td>
                     </tr>
                   ))}
-                </tbody>
-            </table>
-          </div>
-        ) : (
+                </tbody></table></div></div>) : (
           <p className="text-slate-500 mb-8 italic">No plans created for this carrier yet.</p>
         )}
 
