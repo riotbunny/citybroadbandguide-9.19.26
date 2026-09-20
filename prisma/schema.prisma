@@ -38,6 +38,7 @@ model Plan {
   postPromoPrice Float? // FCC Label: Standard rate after promo ends
   peakLatency   Int?    // FCC Label: Typical latency (ms) between 7pm-11pm
   dataCap       String? // FCC Label: Data allowance or 'Unlimited'
+  fccLabelImage String? // Path to the uploaded FCC label screenshot
   description   String?
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
