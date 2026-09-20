@@ -1,5 +1,6 @@
 import { NextResponse } from 'next';
-import prisma from '../../../../../lib/prisma';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 export const dynamic = 'force-dynamic'; // Prevent caching of the cron
 
