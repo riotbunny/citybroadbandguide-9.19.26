@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client'
 import { notFound } from 'next/navigation'
 import Navbar from '../../../components/Navbar'
 import GeoLocator from '../../../components/GeoLocator'
-import Footer from '../../../components/Footer'
 
 const prisma = new PrismaClient()
 
@@ -103,11 +102,10 @@ export default async function StateHub({ params }: { params: Promise<{ state: st
           At <strong>City Broadband Guide</strong>, we believe {stateUpper} residents shouldn't have to guess what networks are actually installed on their street. We've aggregated coverage maps, promotional pricing, and real-world connection speeds across <strong>{cities.length} cities</strong> and <strong>{totalZips} local zip codes</strong> to eliminate the guesswork. 
         </p>
         <p className="leading-relaxed">
-          Because pricing and availability are strictly determined by hyper-local infrastructure—sometimes changing from one side of the street to the other—we highly recommend selecting your city from the directory above or entering your exact zip code into the locator. This ensures you are viewing the most accurate, up-to-date promotional rates and active internet service providers for your specific neighborhood.
+          Because pricing and availability are strictly determined by hyper-local infrastructureâ€”sometimes changing from one side of the street to the otherâ€”we highly recommend selecting your city from the directory above or entering your exact zip code into the locator. This ensures you are viewing the most accurate, up-to-date promotional rates and active internet service providers for your specific neighborhood.
         </p>
       </div>
 
-      <Footer />
-    </main>
+          </main>
   );
 }

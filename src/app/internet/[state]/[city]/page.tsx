@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic';
 import { PrismaClient } from '@prisma/client'
 import { Metadata } from 'next'
 import Navbar from '../../../../components/Navbar'
-import Footer from '../../../../components/Footer'
 import GeoLocator from '../../../../components/GeoLocator'
 import Link from 'next/link'
 import JumpButton from '../../../../components/JumpButton';
@@ -258,8 +257,7 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
         </div>
       </div>
       
-      <Footer />
-    </main>
+          </main>
   )
   } catch (error: any) {
     return <div className="p-20 text-red-500 font-bold bg-black min-h-screen"><h1>CRASH DETAILS:</h1><pre>{error.message}</pre><pre>{error.stack}</pre></div>;
