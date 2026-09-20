@@ -132,6 +132,11 @@ export async function removeCoverage(coverageId: string, carrierId: string) {
 export async function addPlan(carrierId: string, formData: FormData) {
   const name = formData.get('name') as string;
   const price = parseFloat(formData.get('price') as string) || 0;
+  const postPromoPriceStr = formData.get('postPromoPrice') as string;
+  const peakLatencyStr = formData.get('peakLatency') as string;
+  const dataCap = formData.get('dataCap') as string;
+  const postPromoPrice = postPromoPriceStr ? parseFloat(postPromoPriceStr) : null;
+  const peakLatency = peakLatencyStr ? parseInt(peakLatencyStr) : null;
   const downloadSpeedStr = formData.get('downloadSpeed') as string;
   const uploadSpeedStr = formData.get('uploadSpeed') as string;
   const description = formData.get('description') as string;
@@ -144,6 +149,9 @@ export async function addPlan(carrierId: string, formData: FormData) {
       carrierId,
       name,
       price,
+      postPromoPrice,
+      peakLatency,
+      dataCap,
       downloadSpeed,
       uploadSpeed,
       description
@@ -253,13 +261,18 @@ export async function toggleTopPick(id: string, newStatus: boolean) {
 export async function updatePlan(planId: string, carrierId: string, formData: FormData) {
   const name = formData.get('name') as string;
   const price = parseFloat(formData.get('price') as string);
+  const postPromoPriceStr = formData.get('postPromoPrice') as string;
+  const peakLatencyStr = formData.get('peakLatency') as string;
+  const dataCap = formData.get('dataCap') as string;
+  const postPromoPrice = postPromoPriceStr ? parseFloat(postPromoPriceStr) : null;
+  const peakLatency = peakLatencyStr ? parseInt(peakLatencyStr) : null;
   const downloadSpeed = parseInt(formData.get('downloadSpeed') as string);
   const uploadSpeed = parseInt(formData.get('uploadSpeed') as string);
   const description = formData.get('description') as string;
 
   await prisma.plan.update({
     where: { id: planId },
-    data: { name, price, downloadSpeed, uploadSpeed, description }
+    data: { name, price, postPromoPrice, peakLatency, dataCap, downloadSpeed, uploadSpeed, description }
   });
   
   revalidatePath('/admin/carriers/' + carrierId);
