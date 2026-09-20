@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 import { PrismaClient } from '@prisma/client'
 import { Metadata } from 'next'
 import Navbar from '../../../../components/Navbar'
+import SpeedTestWidget from '../../../../components/SpeedTestWidget'
 import GeoLocator from '../../../../components/GeoLocator'
 import Link from 'next/link'
 import JumpButton from '../../../../components/JumpButton';
@@ -157,8 +158,14 @@ export default async function CityDirectory({ params }: { params: Promise<{ stat
         </div>
       </div>
 
+      
+      {/* Proprietary Data Collection Widget */}
+      <div className="max-w-6xl mx-auto px-4 -mt-10 relative z-30 w-full mb-6">
+        <SpeedTestWidget zip={cityClean} />
+      </div>
+
       {/* The Mega Conversion Section: TL;DR + Editor's Pick */}
-      <div className="max-w-6xl mx-auto w-full px-4 -mt-10 relative z-20 mb-16">
+      <div className="max-w-6xl mx-auto w-full px-4 relative z-20 mb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* The TL;DR Box */}
