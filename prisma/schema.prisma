@@ -59,3 +59,11 @@ model Coverage {
 
   @@unique([carrierId, zip])
 }
+model SpeedTestResult {
+  id        String   @id @default(cuid())
+  zip       String
+  download  Float
+  upload    Float
+  latency   Int
+  createdAt DateTime @default(now())
+}
