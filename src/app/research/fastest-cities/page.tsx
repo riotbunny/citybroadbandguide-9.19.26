@@ -3,14 +3,18 @@ import Footer from '../../../components/Footer';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-export const metadata = {
-  title: 'Top 10 Cities with the Fastest Internet in 2026 | City Broadband Guide',
-  description: 'Original data journalism reporting on the absolute fastest gigabit connectivity hubs in the United States based on FCC data and proprietary speed tests.',
-};
+export async function generateMetadata() {
+  const currentYear = new Date().getFullYear();
+  return {
+    title: `Top 10 Cities with the Fastest Internet in ${currentYear} | City Broadband Guide`,
+    description: 'Original data journalism reporting on the absolute fastest gigabit connectivity hubs in the United States based on FCC data and proprietary speed tests.',
+  };
+}
 
 export const dynamic = 'force-dynamic';
 
 export default async function FastestCitiesReport() {
+  const currentYear = new Date().getFullYear();
   // Aggregate real backend data for the PR report
   const activePlans = await prisma.plan.findMany({
     where: { downloadSpeed: { gt: 0, lte: 10000 } }, // Cap at 10 Gbps to filter out 50G commercial/enthusiast tiers
@@ -24,7 +28,7 @@ export default async function FastestCitiesReport() {
       <Navbar />
       <div className="pt-32 pb-24 px-4 max-w-4xl mx-auto w-full flex-grow">
         <div className="mb-6 inline-block bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
-          Original Research &mdash; Fall 2026
+          Original Research &mdash; {currentYear}
         </div>
         <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">The Top 10 Fastest Broadband Hubs in America</h1>
         <div className="prose prose-lg text-slate-600 mb-12">
@@ -34,7 +38,7 @@ export default async function FastestCitiesReport() {
 
         <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
           <div className="bg-slate-900 px-6 py-4 border-b border-slate-800">
-            <h2 className="text-xl font-bold text-white">Highest Recorded Residential Speeds (2026)</h2>
+            <h2 className="text-xl font-bold text-white">Highest Recorded Residential Speeds {currentYear}</h2>
           </div>
           <ul className="divide-y divide-slate-100">
             {activePlans.length > 0 ? activePlans.map((plan, i) => (
