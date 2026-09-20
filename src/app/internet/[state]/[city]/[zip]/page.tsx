@@ -4,6 +4,7 @@ import LocalRatings from '../../../../../components/LocalRatings'
 import { Metadata } from 'next'
 import Navbar from '../../../../../components/Navbar'
 import SortDropdown from '../../../../../components/SortDropdown'
+import SpeedTestWidget from '../../../../../components/SpeedTestWidget'
 
 const prisma = new PrismaClient()
 
@@ -208,6 +209,12 @@ const location = await prisma.location.findUnique({
           
           
         </div>
+      </div>
+
+      
+      {/* Proprietary Data Collection Widget */}
+      <div className="max-w-7xl mx-auto px-4 -mt-12 relative z-30 w-full mb-12">
+        <SpeedTestWidget zip={location.zip} />
       </div>
 
       <div id="providers" className="max-w-7xl mx-auto px-4 -mt-20 relative z-20 w-full mb-8">
