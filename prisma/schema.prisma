@@ -35,6 +35,9 @@ model Plan {
   downloadSpeed Int?
   uploadSpeed   Int?
   price         Float
+  postPromoPrice Float? // FCC Label: Standard rate after promo ends
+  peakLatency   Int?    // FCC Label: Typical latency (ms) between 7pm-11pm
+  dataCap       String? // FCC Label: Data allowance or 'Unlimited'
   description   String?
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
