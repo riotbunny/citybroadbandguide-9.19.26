@@ -336,7 +336,7 @@ const location = await prisma.location.findUnique({
                     <div className="mt-5 pt-5 border-t border-slate-100 flex flex-wrap gap-x-4 gap-y-2 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                       {(() => {
                         const allLatencies = carrier.plans?.map((p: any) => p.peakLatency).filter(Boolean) || [];
-                        const allDataCaps = [...new Set(carrier.plans?.map((p: any) => p.dataCap).filter(Boolean))] || [];
+                        const allDataCaps = Array.from(new Set(carrier.plans?.map((p: any) => p.dataCap).filter(Boolean)));
                         const allPostPromos = carrier.plans?.map((p: any) => p.postPromoPrice).filter(Boolean) || [];
                         
                         const minLat = allLatencies.length ? Math.min(...allLatencies) : null;
