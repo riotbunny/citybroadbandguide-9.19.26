@@ -290,8 +290,10 @@ export async function updatePlan(planId: string, carrierId: string, formData: Fo
   }
   const postPromoPrice = postPromoPriceStr ? parseFloat(postPromoPriceStr) : null;
   const peakLatency = peakLatencyStr ? parseInt(peakLatencyStr) : null;
-  const downloadSpeed = parseInt(formData.get('downloadSpeed') as string);
-  const uploadSpeed = parseInt(formData.get('uploadSpeed') as string);
+  const downloadSpeedStr = formData.get('downloadSpeed') as string;
+  const downloadSpeed = downloadSpeedStr ? parseInt(downloadSpeedStr) : null;
+  const uploadSpeedStr = formData.get('uploadSpeed') as string;
+  const uploadSpeed = uploadSpeedStr ? parseInt(uploadSpeedStr) : null;
   const description = formData.get('description') as string;
 
   await prisma.plan.update({
