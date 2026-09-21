@@ -85,8 +85,13 @@ export default async function ProviderPage({ params, searchParams }: { params: P
                   <h3 className="text-2xl font-black text-slate-900 mb-2">{plan.name}</h3>
                   {plan.description && <p className="text-slate-500 text-lg leading-relaxed">{plan.description}</p>}
                   
-                  {plan.fccLabelImage && (
+                  {plan.fccLabelImage ? (
                     <a href={plan.fccLabelImage} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center text-[12px] font-black uppercase tracking-wider text-indigo-500 hover:text-indigo-700 transition-colors bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-lg border border-indigo-100">
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                      View Uploaded Facts Label
+                    </a>
+                  ) : (
+                    <a href={`/label/${plan.id}`} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center text-[12px] font-black uppercase tracking-wider text-indigo-500 hover:text-indigo-700 transition-colors bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-lg border border-indigo-100">
                       <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                       View FCC Broadband Facts Label
                     </a>
