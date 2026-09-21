@@ -1,7 +1,7 @@
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
+
 
 export async function generateMetadata() {
   const currentYear = new Date().getFullYear();

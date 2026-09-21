@@ -1,5 +1,5 @@
 export const dynamic = 'force-dynamic';
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/lib/prisma";
 import { Metadata } from 'next'
 import Navbar from '../../../../components/Navbar'
 import SpeedTestWidget from '../../../../components/SpeedTestWidget'
@@ -8,7 +8,7 @@ import Link from 'next/link'
 import JumpButton from '../../../../components/JumpButton';
 
 
-const prisma = new PrismaClient()
+
 
 export async function generateMetadata({ params }: { params: Promise<{ state: string, city: string }> }): Promise<Metadata> {
   const { state, city } = await params;

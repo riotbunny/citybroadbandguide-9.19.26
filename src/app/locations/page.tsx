@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/lib/prisma";
 import Navbar from '../../components/Navbar'
 import Link from 'next/link'
 
-const prisma = new PrismaClient()
+
 
 export default async function LocationsDirectory() {
   const locations = await prisma.location.findMany({

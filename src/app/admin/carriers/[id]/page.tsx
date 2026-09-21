@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/lib/prisma";
 import { updateCarrier, addCoverage, addCoverageByCity, removeCoverageByCity, removeCoverage, addPlan, removePlan, deleteCarrier , updatePlan} from '../../actions'
 import { notFound } from 'next/navigation'
 import AutoDismissBanner from '../../../../components/AutoDismissBanner'
 
-const prisma = new PrismaClient()
+
 
 export default async function EditCarrierPage({ 
   params,

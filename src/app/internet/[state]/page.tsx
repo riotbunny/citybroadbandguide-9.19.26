@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/lib/prisma";
 import { notFound } from 'next/navigation'
 import Navbar from '../../../components/Navbar'
 import GeoLocator from '../../../components/GeoLocator'
 
-const prisma = new PrismaClient()
+
 
 export async function generateMetadata({ params }: { params: Promise<{ state: string }> }) {
   const { state } = await params;

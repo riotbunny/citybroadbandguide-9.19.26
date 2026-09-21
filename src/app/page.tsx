@@ -1,10 +1,10 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/lib/prisma";
 import { cookies, headers } from 'next/headers'
 import GeoLocator from '../components/GeoLocator'
 import Navbar from '../components/Navbar'
 import InteractiveCoverageMap from '../components/InteractiveCoverageMap'
 
-const prisma = new PrismaClient()
+
 
 export default async function Home() {
   const carriers = await prisma.carrier.findMany({ 

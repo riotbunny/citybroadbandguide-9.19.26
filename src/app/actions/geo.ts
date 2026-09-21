@@ -1,6 +1,6 @@
 'use server';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
+
 
 export async function getRouteByZip(zipCode: string) {
   const cleanZip = zipCode.trim().substring(0, 5);

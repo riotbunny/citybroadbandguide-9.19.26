@@ -1,10 +1,10 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/lib/prisma";
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import Navbar from '../../../components/Navbar'
 import InteractiveCoverageMap from '../../../components/InteractiveCoverageMap'
 
-const prisma = new PrismaClient()
+
 
 type Props = {
   params: Promise<{ slug: string }>

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/lib/prisma";
 import { notFound } from 'next/navigation'
 import LocalRatings from '../../../../../components/LocalRatings'
 import { Metadata } from 'next'
@@ -6,7 +6,7 @@ import Navbar from '../../../../../components/Navbar'
 import SortDropdown from '../../../../../components/SortDropdown'
 import SpeedTestWidget from '../../../../../components/SpeedTestWidget'
 
-const prisma = new PrismaClient()
+
 
 type Props = {
   params: Promise<{ state: string, city: string, zip: string }>;

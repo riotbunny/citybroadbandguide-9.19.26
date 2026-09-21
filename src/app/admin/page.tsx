@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/lib/prisma";
 import SaveStatusButton from '../../components/SaveStatusButton'
 import { toggleCarrierStatus, quickUpdateCarrier, createNewCarrier, toggleTopPick } from './actions'
 import { logout } from '../login/actions'
 
-const prisma = new PrismaClient()
+
 
 export default async function AdminDashboard() {
   const carriers = await prisma.carrier.findMany({ 
