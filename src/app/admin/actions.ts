@@ -27,15 +27,9 @@ export async function updateCarrier(id: string, formData: FormData) {
   const logo = formData.get('logo') as File | null;
   
   if (logo && logo.size > 0) {
-    const buffer = Buffer.from(await logo.arrayBuffer());
     const safeName = logo.name.replace(/[^a-zA-Z0-9.-]/g, '');
-    const filename = `${Date.now()}-${safeName}`;
-    const filepath = path.join(process.cwd(), 'public', 'logos', filename);
-    
-    await fs.mkdir(path.dirname(filepath), { recursive: true });
-    await fs.writeFile(filepath, buffer);
-    
-    logoPathUpdate = `/logos/${filename}`;
+    const blob = await put(`logos/${Date.now()}-${safeName}`, logo, { access: 'public' });
+    logoPathUpdate = blob.url;
   }
 
   const updateData: any = { name, affiliateUrl, phoneNumber, isActive, isNationwide, brandColor, hasFiber, hasCable, has5G, hasSatellite, disclaimer, aboutText, rating };
@@ -140,13 +134,9 @@ export async function addPlan(carrierId: string, formData: FormData) {
   let fccLabelPath = undefined;
   const fccLabel = formData.get('fccLabel') as File | null;
   if (fccLabel && fccLabel.size > 0) {
-    const buffer = Buffer.from(await fccLabel.arrayBuffer());
     const safeName = fccLabel.name.replace(/[^a-zA-Z0-9.-]/g, '');
-    const filename = `fcc-${Date.now()}-${safeName}`;
-    const filepath = path.join(process.cwd(), 'public', 'labels', filename);
-    await fs.mkdir(path.dirname(filepath), { recursive: true });
-    await fs.writeFile(filepath, buffer);
-    fccLabelPath = `/labels/${filename}`;
+    const blob = await put(`labels/fcc-${Date.now()}-${safeName}`, fccLabel, { access: 'public' });
+    fccLabelPath = blob.url;
   }
   const postPromoPrice = postPromoPriceStr ? parseFloat(postPromoPriceStr) : null;
   const peakLatency = peakLatencyStr ? parseInt(peakLatencyStr) : null;
@@ -281,13 +271,9 @@ export async function updatePlan(planId: string, carrierId: string, formData: Fo
   let fccLabelPath = undefined;
   const fccLabel = formData.get('fccLabel') as File | null;
   if (fccLabel && fccLabel.size > 0) {
-    const buffer = Buffer.from(await fccLabel.arrayBuffer());
     const safeName = fccLabel.name.replace(/[^a-zA-Z0-9.-]/g, '');
-    const filename = `fcc-${Date.now()}-${safeName}`;
-    const filepath = path.join(process.cwd(), 'public', 'labels', filename);
-    await fs.mkdir(path.dirname(filepath), { recursive: true });
-    await fs.writeFile(filepath, buffer);
-    fccLabelPath = `/labels/${filename}`;
+    const blob = await put(`labels/fcc-${Date.now()}-${safeName}`, fccLabel, { access: 'public' });
+    fccLabelPath = blob.url;
   }
   const postPromoPrice = postPromoPriceStr ? parseFloat(postPromoPriceStr) : null;
   const peakLatency = peakLatencyStr ? parseInt(peakLatencyStr) : null;
