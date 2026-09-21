@@ -117,6 +117,17 @@ export default async function FCCLabelPage({ params }: { params: Promise<{ planI
           <p className="text-center font-bold mt-1">fcc.gov/consumer</p>
         </div>
       </div>
+      
+      {/* Legal Disclaimer to protect the site owner */}
+      <div className="mt-8 max-w-[400px] w-full bg-slate-100 border border-slate-200 p-4 rounded-xl text-xs text-slate-500 leading-relaxed shadow-sm">
+        <p className="font-black text-slate-700 mb-1 uppercase tracking-wider">Disclaimer & Liability Notice</p>
+        <p className="mb-2">
+          This broadband label is generated for general informational and comparative purposes only. Speeds, promotional pricing, standard rates, hardware fees, and data caps are subject to change at any time and may vary based on your specific physical address.
+        </p>
+        <p>
+          We make no warranties regarding the complete accuracy of these figures. Please visit the provider's official website or contact their sales department to view the legally binding, exact FCC Broadband Facts label for your specific location prior to making a purchasing decision.
+        </p>
+      </div>
     </div>
   );
 }
