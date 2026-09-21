@@ -14,11 +14,8 @@ async function generateSitemap() {
 
   console.log(`Found ${carriers.length} active carriers.`);
 
-  // Get only locations that actually have internet coverages mapped to them
+  // Get ALL locations since Nationwide providers ensure no page is empty
   const locations = await prisma.location.findMany({
-    where: {
-      coverages: { some: {} }
-    },
     select: { state: true, city: true, zip: true }
   });
 
