@@ -71,6 +71,8 @@ export default function InteractiveCoverageMap({ carriers }: { carriers: Carrier
             <style>{`
         .usa-map-wrapper svg {
           filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
+          width: 100% !important;
+          height: auto !important;
         }
         .usa-map-wrapper svg path {
           transition: all 0.2s ease-in-out;
