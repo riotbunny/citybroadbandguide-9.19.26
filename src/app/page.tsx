@@ -4,7 +4,8 @@ import GeoLocator from '../components/GeoLocator'
 import Navbar from '../components/Navbar'
 import InteractiveCoverageMap from '../components/InteractiveCoverageMap'
 
-
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function Home() {
   const carriers = await prisma.carrier.findMany({ 
