@@ -3,7 +3,8 @@ import SaveStatusButton from '../../components/SaveStatusButton'
 import { toggleCarrierStatus, quickUpdateCarrier, createNewCarrier, toggleTopPick } from './actions'
 import { logout } from '../login/actions'
 
-
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminDashboard() {
   const carriers = await prisma.carrier.findMany({ 
