@@ -4,8 +4,7 @@ import GeoLocator from '../components/GeoLocator'
 import Navbar from '../components/Navbar'
 import InteractiveCoverageMap from '../components/InteractiveCoverageMap'
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 3600; // Cache for 1 hour to maximize Edge Cache hits
 
 export default async function Home() {
   const carriers = await prisma.carrier.findMany({ 

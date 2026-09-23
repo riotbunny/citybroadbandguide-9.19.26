@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /*?fbclid=
+Disallow: /*?utm_
+Disallow: /*?gclid=
+Disallow: /*?msclkid=
 
 Sitemap: https://www.citybroadbandguide.com/sitemap.xml
