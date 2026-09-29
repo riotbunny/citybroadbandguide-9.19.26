@@ -42,12 +42,31 @@ export async function GET(request: Request) {
       }
     });
 
-    // 3. Merge and deduplicate
+    // 3. Merge and deduplicate by ROOT brand name, keeping the lowest price
     const allCarriersMap = new Map();
     
-    localCarriers.forEach(carrier => allCarriersMap.set(carrier.id, carrier));
-    // Nationwide carriers are added. If they were somehow already in the local array, this safely overwrites them.
-    nationwideCarriers.forEach(carrier => allCarriersMap.set(carrier.id, carrier));
+    const normalizeName = (name: string) => {
+      const lower = name.toLowerCase();
+      if (lower.includes('verizon')) return 'verizon';
+      if (lower.includes('t-mobile') || lower.includes('tmobile')) return 't-mobile';
+      if (lower.includes('at&t') || lower.includes('att')) return 'att';
+      return lower;
+    };
+
+    const combined = [...localCarriers, ...nationwideCarriers];
+    
+    combined.forEach(carrier => {
+      const rootName = normalizeName(carrier.name);
+      const existing = allCarriersMap.get(rootName);
+      
+      const currentPrice = carrier.plans?.[0]?.price || 999;
+      const existingPrice = existing?.plans?.[0]?.price || 999;
+
+      // If this brand doesn't exist yet, OR if this plan is cheaper, save it
+      if (!existing || currentPrice < existingPrice) {
+        allCarriersMap.set(rootName, carrier);
+      }
+    });
 
     const results = Array.from(allCarriersMap.values()).map(carrier => {
       const cheapestPlan = carrier.plans[0];

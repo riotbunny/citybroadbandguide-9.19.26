@@ -22,11 +22,12 @@ export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [zip, setZip] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       sender: "bot",
-      text: "Hi! I can instantly check which internet providers are actually active at your address. What is your 5-digit zip code?",
+      text: "Hi! I'm Daisy, your local internet specialist. I can check exactly which providers are active at your address. What is your 5-digit zip code?",
     },
   ]);
   
@@ -38,7 +39,7 @@ export default function Chatbot() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isTyping]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,65 +49,73 @@ export default function Chatbot() {
     setMessages((prev) => [...prev, userMessage]);
     setZip("");
     setIsLoading(true);
+    setIsTyping(true);
 
     try {
       const res = await fetch(`/api/bot?zip=${userMessage.text}`);
       const data = await res.json();
 
-      if (data.results && data.results.length > 0) {
-        if (data.hasLocal) {
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: Date.now().toString() + "bot1",
-              sender: "bot",
-              text: `Awesome! Your address in ${userMessage.text} is covered by top-tier local providers, as well as nationwide 5G options. Here are the fastest, most affordable deals available right now:`
-            },
-            {
-              id: Date.now().toString() + "bot2",
-              sender: "bot",
-              options: data.results
-            }
-          ]);
+      // Artificial human delay for realism (1.5 seconds)
+      setTimeout(() => {
+        setIsTyping(false);
+        if (data.results && data.results.length > 0) {
+          if (data.hasLocal) {
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: Date.now().toString() + "bot1",
+                sender: "bot",
+                text: `Awesome! Your address in ${userMessage.text} is covered by top-tier local providers, as well as nationwide 5G options. Here are the fastest, most affordable deals available right now:`
+              },
+              {
+                id: Date.now().toString() + "bot2",
+                sender: "bot",
+                options: data.results
+              }
+            ]);
+          } else {
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: Date.now().toString() + "bot1",
+                sender: "bot",
+                text: `Great news! Your area is fully covered by Next-Gen 5G Home Internet. Here are the top providers offering high-speed, plug-and-play connections at your exact address:`
+              },
+              {
+                id: Date.now().toString() + "bot2",
+                sender: "bot",
+                options: data.results
+              }
+            ]);
+          }
         } else {
           setMessages((prev) => [
             ...prev,
-            {
-              id: Date.now().toString() + "bot1",
-              sender: "bot",
-              text: `Great news! Your area is fully covered by Next-Gen 5G Home Internet. Here are the top providers offering high-speed, plug-and-play connections at your exact address:`
-            },
-            {
-              id: Date.now().toString() + "bot2",
-              sender: "bot",
-              options: data.results
-            }
+            { id: Date.now().toString() + "err", sender: "bot", text: "Sorry, no offers are currently available in that area." }
           ]);
         }
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          { id: Date.now().toString() + "err", sender: "bot", text: "Sorry, no offers are currently available in that area." }
-        ]);
-      }
+        setIsLoading(false);
+      }, 1500);
+
     } catch (error) {
+      setIsTyping(false);
+      setIsLoading(false);
       setMessages((prev) => [
         ...prev,
         { id: Date.now().toString() + "err", sender: "bot", text: "Sorry, I had trouble connecting to the database. Try again in a moment!" }
       ]);
     }
-
-    setIsLoading(false);
   };
 
   return (
     <>
-      {/* Floating Chat Button */}
+      {/* Floating Chat Button CTA */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 p-4 bg-indigo-600 text-white rounded-full shadow-2xl hover:bg-indigo-700 transition-all z-50 ${isOpen ? 'hidden' : 'flex'}`}
+        className={`fixed bottom-6 right-6 px-5 py-4 bg-indigo-600 text-white rounded-full shadow-2xl hover:bg-indigo-700 transition-all z-50 flex items-center gap-2 ${isOpen ? 'hidden' : 'flex'}`}
       >
-        <MessageCircle size={28} />
+        <MessageCircle size={24} />
+        <span className="font-bold tracking-wide">Live Chat</span>
       </button>
 
       {/* Chat Window */}
@@ -114,9 +123,16 @@ export default function Chatbot() {
         <div className="fixed bottom-6 right-6 w-[90%] max-w-[380px] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col z-50 border border-slate-200 h-[600px] max-h-[80vh]">
           {/* Header */}
           <div className="bg-indigo-600 p-4 flex justify-between items-center text-white">
-            <div>
-              <h3 className="font-bold text-lg">Internet Deal Finder</h3>
-              <p className="text-indigo-200 text-xs">Live Database Check</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-indigo-400 rounded-full flex items-center justify-center font-bold text-lg border-2 border-indigo-300">
+                D
+              </div>
+              <div>
+                <h3 className="font-bold text-lg leading-tight">Daisy</h3>
+                <p className="text-indigo-200 text-xs flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Online
+                </p>
+              </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-indigo-200 hover:text-white transition-colors">
               <X size={24} />
@@ -128,11 +144,11 @@ export default function Chatbot() {
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[85%] rounded-2xl p-3 ${msg.sender === "user" ? "bg-indigo-600 text-white rounded-br-none" : "bg-white text-slate-800 shadow-sm border border-slate-100 rounded-bl-none"}`}>
-                  {msg.text && <p className="text-sm">{msg.text}</p>}
+                  {msg.text && <p className="text-sm leading-relaxed">{msg.text}</p>}
                   
                   {/* Dynamic Offer Cards */}
                   {msg.options && (
-                    <div className="space-y-3 mt-2">
+                    <div className="space-y-3 mt-3">
                       {msg.options.map((opt) => (
                         <div key={opt.id} className="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex flex-col gap-2">
                           {opt.isTopPick && (
@@ -164,12 +180,13 @@ export default function Chatbot() {
                 </div>
               </div>
             ))}
-            {isLoading && (
+            {isTyping && (
               <div className="flex justify-start">
-                <div className="bg-white border border-slate-100 shadow-sm rounded-2xl rounded-bl-none p-4 flex gap-1">
-                  <div className="w-2 h-2 bg-indigo-300 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-indigo-300 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-2 bg-indigo-300 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                <div className="bg-white border border-slate-100 shadow-sm rounded-2xl rounded-bl-none p-4 flex gap-1 items-center">
+                  <span className="text-xs text-slate-400 mr-1 italic">Daisy is typing</span>
+                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                 </div>
               </div>
             )}
@@ -182,7 +199,7 @@ export default function Chatbot() {
               <input
                 type="text"
                 value={zip}
-                onChange={(e) => setZip(e.target.value.replace(/\\D/g, '').slice(0, 5))}
+                onChange={(e) => setZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
                 placeholder="Enter 5-digit Zip..."
                 className="flex-1 bg-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 disabled={isLoading}
