@@ -50,7 +50,7 @@ export default function Chatbot() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`/api/bot?zip=\${userMessage.text}`);
+      const res = await fetch(`/api/bot?zip=${userMessage.text}`);
       const data = await res.json();
 
       if (data.results && data.results.length > 0) {
@@ -59,7 +59,7 @@ export default function Chatbot() {
           {
             id: Date.now().toString() + "bot1",
             sender: "bot",
-            text: \`Great news! I found \${data.results.length} high-speed providers available in \${userMessage.text}. Here are the best offers:\`
+            text: `Great news! I found ${data.results.length} high-speed providers available in ${userMessage.text}. Here are the best offers:`
           },
           {
             id: Date.now().toString() + "bot2",
@@ -103,7 +103,7 @@ export default function Chatbot() {
       {/* Floating Chat Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={\`fixed bottom-6 right-6 p-4 bg-indigo-600 text-white rounded-full shadow-2xl hover:bg-indigo-700 transition-all z-50 \${isOpen ? 'hidden' : 'flex'}\`}
+        className={`fixed bottom-6 right-6 p-4 bg-indigo-600 text-white rounded-full shadow-2xl hover:bg-indigo-700 transition-all z-50 ${isOpen ? 'hidden' : 'flex'}`}
       >
         <MessageCircle size={28} />
       </button>
@@ -125,8 +125,8 @@ export default function Chatbot() {
           {/* Messages Area */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
             {messages.map((msg) => (
-              <div key={msg.id} className={\`flex \${msg.sender === "user" ? "justify-end" : "justify-start"}\`}>
-                <div className={\`max-w-[85%] rounded-2xl p-3 \${msg.sender === "user" ? "bg-indigo-600 text-white rounded-br-none" : "bg-white text-slate-800 shadow-sm border border-slate-100 rounded-bl-none"}\`}>
+              <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[85%] rounded-2xl p-3 ${msg.sender === "user" ? "bg-indigo-600 text-white rounded-br-none" : "bg-white text-slate-800 shadow-sm border border-slate-100 rounded-bl-none"}`}>
                   {msg.text && <p className="text-sm">{msg.text}</p>}
                   
                   {/* Dynamic Offer Cards */}
@@ -141,7 +141,7 @@ export default function Chatbot() {
                           )}
                           <div className="flex justify-between items-start">
                             <strong className="text-sm text-slate-900">{opt.name}</strong>
-                            {opt.startingPrice && <span className="text-sm font-bold text-green-600">\${opt.startingPrice}/mo</span>}
+                            {opt.startingPrice && <span className="text-sm font-bold text-green-600">${opt.startingPrice}/mo</span>}
                           </div>
                           
                           <div className="flex flex-col gap-2 mt-2">
@@ -151,7 +151,7 @@ export default function Chatbot() {
                               </a>
                             )}
                             {opt.phoneNumber && (
-                              <a href={\`tel:\${opt.phoneNumber}\`} className="flex items-center justify-center gap-1 w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors border border-slate-200">
+                              <a href={`tel:${opt.phoneNumber}`} className="flex items-center justify-center gap-1 w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors border border-slate-200">
                                 Call {opt.phoneNumber} <Phone size={14} />
                               </a>
                             )}
