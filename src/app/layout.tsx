@@ -45,6 +45,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <meta name="impact-site-verification" value="0d4fb6f6-a5ca-4cda-bbef-2aeca279fb06" />
+      </head>
       <body className="min-h-full flex flex-col">{children}<Footer /></body>
     </html>
   );
