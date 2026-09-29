@@ -38,8 +38,10 @@ export const metadata: Metadata = {
   },
 };
 
-import Footer from '../components/Footer'
-export default function RootLayout({ children }: LayoutProps<"/">) {
+import Footer from '../components/Footer';
+import Chatbot from '../components/Chatbot';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
@@ -49,7 +51,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <meta name="impact-site-verification" value="0d4fb6f6-a5ca-4cda-bbef-2aeca279fb06" />
         <meta name="fo-verify" content="8f71c575-c313-42b0-a2d3-94562d42c5d9" />
       </head>
-      <body className="min-h-full flex flex-col">{children}<Footer /></body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Footer />
+        <Chatbot />
+      </body>
     </html>
   );
 }
