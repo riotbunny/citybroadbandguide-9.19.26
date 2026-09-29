@@ -10,6 +10,7 @@ export async function GET(request: Request) {
   }
 
   try {
+    // 1. Fetch Local Coverage
     const coverages = await prisma.coverage.findMany({
       where: { zip },
       include: {
@@ -25,38 +26,56 @@ export async function GET(request: Request) {
       }
     });
 
-    if (coverages.length === 0) {
-      return NextResponse.json({ results: [] });
-    }
+    const localCarriers = coverages.filter(c => c.carrier.isActive).map(c => c.carrier);
 
-    // Map and sort: Top Picks first
-    const results = coverages
-      .filter(c => c.carrier.isActive)
-      .map(c => {
-        const carrier = c.carrier;
-        const cheapestPlan = carrier.plans[0];
-        return {
-          id: carrier.id,
-          name: carrier.name,
-          isTopPick: carrier.isTopPick,
-          affiliateUrl: carrier.affiliateUrl,
-          phoneNumber: carrier.phoneNumber,
-          startingPrice: cheapestPlan?.price || null,
-          speed: cheapestPlan?.downloadSpeed || null,
-        };
-      })
-      .sort((a, b) => {
-        // Force Top Picks to the absolute top
-        if (a.isTopPick && !b.isTopPick) return -1;
-        if (!a.isTopPick && b.isTopPick) return 1;
-        // Secondary sort by price if both are top picks or neither are
-        const priceA = a.startingPrice || 999;
-        const priceB = b.startingPrice || 999;
-        return priceA - priceB;
-      });
+    // 2. Fetch Nationwide Coverage (AT&T Air, Verizon 5G, T-Mobile)
+    const nationwideCarriers = await prisma.carrier.findMany({
+      where: { isNationwide: true, isActive: true },
+      include: {
+        plans: {
+          where: { isActive: true },
+          orderBy: { price: 'asc' },
+          take: 1
+        }
+      }
+    });
 
-    // Return the top 3 options to keep the chat UI clean and focused
-    return NextResponse.json({ results: results.slice(0, 3) });
+    // 3. Merge and deduplicate
+    const allCarriersMap = new Map();
+    
+    localCarriers.forEach(carrier => allCarriersMap.set(carrier.id, carrier));
+    // Nationwide carriers are added. If they were somehow already in the local array, this safely overwrites them.
+    nationwideCarriers.forEach(carrier => allCarriersMap.set(carrier.id, carrier));
+
+    const results = Array.from(allCarriersMap.values()).map(carrier => {
+      const cheapestPlan = carrier.plans[0];
+      return {
+        id: carrier.id,
+        name: carrier.name,
+        isTopPick: carrier.isTopPick,
+        affiliateUrl: carrier.affiliateUrl,
+        phoneNumber: carrier.phoneNumber,
+        startingPrice: cheapestPlan?.price || null,
+        speed: cheapestPlan?.downloadSpeed || null,
+      };
+    }).sort((a, b) => {
+      // Priority 1: Top Picks
+      if (a.isTopPick && !b.isTopPick) return -1;
+      if (!a.isTopPick && b.isTopPick) return 1;
+      // Priority 2: Cheapest Price
+      const priceA = a.startingPrice || 999;
+      const priceB = b.startingPrice || 999;
+      return priceA - priceB;
+    });
+
+    // Return whether we found local direct fiber/cable or just relying on nationwide 5G
+    const hasLocal = coverages.length > 0;
+
+    // Return the top 4 options to give a good mix of local and nationwide
+    return NextResponse.json({ 
+      results: results.slice(0, 4),
+      hasLocal 
+    });
   } catch (error) {
     console.error('Chatbot API Error:', error);
     return NextResponse.json({ error: 'Database error' }, { status: 500 });

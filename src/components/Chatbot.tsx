@@ -54,38 +54,39 @@ export default function Chatbot() {
       const data = await res.json();
 
       if (data.results && data.results.length > 0) {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: Date.now().toString() + "bot1",
-            sender: "bot",
-            text: `Great news! I found ${data.results.length} high-speed providers available in ${userMessage.text}. Here are the best offers:`
-          },
-          {
-            id: Date.now().toString() + "bot2",
-            sender: "bot",
-            options: data.results
-          }
-        ]);
+        if (data.hasLocal) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: Date.now().toString() + "bot1",
+              sender: "bot",
+              text: `Great news! I found high-speed local providers available in ${userMessage.text}, plus nationwide 5G options. Here are the best offers:`
+            },
+            {
+              id: Date.now().toString() + "bot2",
+              sender: "bot",
+              options: data.results
+            }
+          ]);
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: Date.now().toString() + "bot1",
+              sender: "bot",
+              text: `It looks like we don't have direct local fiber or cable mapped to that exact zip code yet. However, these Nationwide 5G options are available everywhere:`
+            },
+            {
+              id: Date.now().toString() + "bot2",
+              sender: "bot",
+              options: data.results
+            }
+          ]);
+        }
       } else {
         setMessages((prev) => [
           ...prev,
-          {
-            id: Date.now().toString() + "bot",
-            sender: "bot",
-            text: "It looks like we don't have direct fiber or cable mapped to that exact zip code yet. However, T-Mobile 5G Home Internet is available nationwide for $50/mo. Want to check them out?",
-            options: [
-              {
-                id: "fallback",
-                name: "T-Mobile 5G Home",
-                isTopPick: true,
-                startingPrice: 50,
-                speed: 245,
-                affiliateUrl: "https://t-mobile.com", // Placeholder fallback
-                phoneNumber: "1-800-TMOBILE"
-              }
-            ]
-          }
+          { id: Date.now().toString() + "err", sender: "bot", text: "Sorry, no offers are currently available in that area." }
         ]);
       }
     } catch (error) {
