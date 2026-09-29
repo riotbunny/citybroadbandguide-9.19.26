@@ -60,7 +60,7 @@ export default function Chatbot() {
             {
               id: Date.now().toString() + "bot1",
               sender: "bot",
-              text: `Great news! I found high-speed local providers available in ${userMessage.text}, plus nationwide 5G options. Here are the best offers:`
+              text: `Awesome! Your address in ${userMessage.text} is covered by top-tier local providers, as well as nationwide 5G options. Here are the fastest, most affordable deals available right now:`
             },
             {
               id: Date.now().toString() + "bot2",
@@ -74,7 +74,7 @@ export default function Chatbot() {
             {
               id: Date.now().toString() + "bot1",
               sender: "bot",
-              text: `It looks like we don't have direct local fiber or cable mapped to that exact zip code yet. However, these Nationwide 5G options are available everywhere:`
+              text: `Great news! Your area is fully covered by Next-Gen 5G Home Internet. Here are the top providers offering high-speed, plug-and-play connections at your exact address:`
             },
             {
               id: Date.now().toString() + "bot2",
