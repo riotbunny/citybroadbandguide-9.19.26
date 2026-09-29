@@ -47,6 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <meta name="impact-site-verification" value="0d4fb6f6-a5ca-4cda-bbef-2aeca279fb06" />
+        <meta name="fo-verify" content="8f71c575-c313-42b0-a2d3-94562d42c5d9" />
       </head>
       <body className="min-h-full flex flex-col">{children}<Footer /></body>
     </html>
