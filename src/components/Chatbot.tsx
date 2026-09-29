@@ -20,26 +20,51 @@ type Message = {
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasConnected, setHasConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
   const [zip, setZip] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      sender: "bot",
-      text: "Hi! I'm Daisy, your local internet specialist. I can check exactly which providers are active at your address. What is your 5-digit zip code?",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const latestResponseRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const scrollToResponse = () => {
+    // Aligns the top of Daisy's final message with the top of the chat view
+    latestResponseRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isOpen, isTyping]);
+    // If the latest message has options (cards), scroll to the text above it
+    if (messages.length > 0 && messages[messages.length - 1].options) {
+      scrollToResponse();
+    } else {
+      scrollToBottom();
+    }
+  }, [messages, isOpen, isTyping, isConnecting]);
+
+  const handleOpenChat = () => {
+    setIsOpen(true);
+    if (!hasConnected) {
+      setIsConnecting(true);
+      setTimeout(() => {
+        setIsConnecting(false);
+        setHasConnected(true);
+        setMessages([
+          {
+            id: "1",
+            sender: "bot",
+            text: "Hi! I'm Daisy, your local internet specialist. I can check exactly which providers are active at your address. What is your 5-digit zip code?",
+          }
+        ]);
+      }, 2000);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,21 +80,17 @@ export default function Chatbot() {
       const res = await fetch(`/api/bot?zip=${userMessage.text}`);
       const data = await res.json();
 
-      // Artificial human delay for realism (1.5 seconds)
       setTimeout(() => {
         setIsTyping(false);
         if (data.results && data.results.length > 0) {
+          const responseId = Date.now().toString() + "bot1";
           if (data.hasLocal) {
             setMessages((prev) => [
               ...prev,
               {
-                id: Date.now().toString() + "bot1",
+                id: responseId,
                 sender: "bot",
-                text: `Awesome! Your address in ${userMessage.text} is covered by top-tier local providers, as well as nationwide 5G options. Here are the fastest, most affordable deals available right now:`
-              },
-              {
-                id: Date.now().toString() + "bot2",
-                sender: "bot",
+                text: `Awesome! Your address in ${userMessage.text} is covered by top-tier local providers, as well as nationwide 5G options. I highly encourage you to check out the exact carrier deals I pulled for you below:`,
                 options: data.results
               }
             ]);
@@ -77,13 +98,9 @@ export default function Chatbot() {
             setMessages((prev) => [
               ...prev,
               {
-                id: Date.now().toString() + "bot1",
+                id: responseId,
                 sender: "bot",
-                text: `Great news! Your area is fully covered by Next-Gen 5G Home Internet. Here are the top providers offering high-speed, plug-and-play connections at your exact address:`
-              },
-              {
-                id: Date.now().toString() + "bot2",
-                sender: "bot",
+                text: `Great news! Your area is fully covered by Next-Gen 5G Home Internet. I highly encourage you to check out these top high-speed carriers available at your exact address below:`,
                 options: data.results
               }
             ]);
@@ -111,7 +128,7 @@ export default function Chatbot() {
     <>
       {/* Floating Chat Button CTA */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpenChat}
         className={`fixed bottom-6 right-6 px-5 py-4 bg-indigo-600 text-white rounded-full shadow-2xl hover:bg-indigo-700 transition-all z-50 flex items-center gap-2 ${isOpen ? 'hidden' : 'flex'}`}
       >
         <MessageCircle size={24} />
@@ -140,46 +157,63 @@ export default function Chatbot() {
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
-            {messages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[85%] rounded-2xl p-3 ${msg.sender === "user" ? "bg-indigo-600 text-white rounded-br-none" : "bg-white text-slate-800 shadow-sm border border-slate-100 rounded-bl-none"}`}>
-                  {msg.text && <p className="text-sm leading-relaxed">{msg.text}</p>}
-                  
-                  {/* Dynamic Offer Cards */}
-                  {msg.options && (
-                    <div className="space-y-3 mt-3">
-                      {msg.options.map((opt) => (
-                        <div key={opt.id} className="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex flex-col gap-2">
-                          {opt.isTopPick && (
-                            <span className="text-[10px] font-black uppercase tracking-wider text-orange-600 bg-orange-50 inline-block px-2 py-1 rounded-md self-start">
-                              🔥 Top Pick
-                            </span>
-                          )}
-                          <div className="flex justify-between items-start">
-                            <strong className="text-sm text-slate-900">{opt.name}</strong>
-                            {opt.startingPrice && <span className="text-sm font-bold text-green-600">${opt.startingPrice}/mo</span>}
-                          </div>
-                          
-                          <div className="flex flex-col gap-2 mt-2">
-                            {opt.affiliateUrl && (
-                              <a href={opt.affiliateUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1 w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-colors">
-                                Sign Up Online <ExternalLink size={14} />
-                              </a>
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 relative">
+            {messages.map((msg, index) => {
+              const isFinalOptionsMessage = msg.sender === "bot" && !!msg.options && index === messages.length - 1;
+              return (
+                <div 
+                  key={msg.id} 
+                  ref={isFinalOptionsMessage ? latestResponseRef : null}
+                  className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  <div className={`max-w-[85%] rounded-2xl p-3 ${msg.sender === "user" ? "bg-indigo-600 text-white rounded-br-none" : "bg-white text-slate-800 shadow-sm border border-slate-100 rounded-bl-none"}`}>
+                    {msg.text && <p className="text-sm leading-relaxed">{msg.text}</p>}
+                    
+                    {/* Dynamic Offer Cards */}
+                    {msg.options && (
+                      <div className="space-y-3 mt-3">
+                        {msg.options.map((opt) => (
+                          <div key={opt.id} className="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex flex-col gap-2">
+                            {opt.isTopPick && (
+                              <span className="text-[10px] font-black uppercase tracking-wider text-orange-600 bg-orange-50 inline-block px-2 py-1 rounded-md self-start">
+                                🔥 Top Pick
+                              </span>
                             )}
-                            {opt.phoneNumber && (
-                              <a href={`tel:${opt.phoneNumber}`} className="flex items-center justify-center gap-1 w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors border border-slate-200">
-                                Call {opt.phoneNumber} <Phone size={14} />
-                              </a>
-                            )}
+                            <div className="flex justify-between items-start">
+                              <strong className="text-sm text-slate-900">{opt.name}</strong>
+                              {opt.startingPrice && <span className="text-sm font-bold text-green-600">${opt.startingPrice}/mo</span>}
+                            </div>
+                            
+                            <div className="flex flex-col gap-2 mt-2">
+                              {opt.affiliateUrl && (
+                                <a href={opt.affiliateUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1 w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-colors">
+                                  Sign Up Online <ExternalLink size={14} />
+                                </a>
+                              )}
+                              {opt.phoneNumber && (
+                                <a href={`tel:${opt.phoneNumber}`} className="flex items-center justify-center gap-1 w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors border border-slate-200">
+                                  Call {opt.phoneNumber} <Phone size={14} />
+                                </a>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+            {isConnecting && (
+              <div className="flex justify-start">
+                <div className="bg-white border border-slate-100 shadow-sm rounded-2xl rounded-bl-none p-4 flex gap-2 items-center">
+                  <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="text-sm text-slate-600 font-medium">Connecting you to Daisy...</span>
                 </div>
               </div>
-            ))}
+            )}
+
             {isTyping && (
               <div className="flex justify-start">
                 <div className="bg-white border border-slate-100 shadow-sm rounded-2xl rounded-bl-none p-4 flex gap-1 items-center">
@@ -202,11 +236,11 @@ export default function Chatbot() {
                 onChange={(e) => setZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
                 placeholder="Enter 5-digit Zip..."
                 className="flex-1 bg-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                disabled={isLoading}
+                disabled={isLoading || isConnecting}
               />
               <button
                 type="submit"
-                disabled={zip.length !== 5 || isLoading}
+                disabled={zip.length !== 5 || isLoading || isConnecting}
                 className="bg-indigo-600 text-white rounded-xl px-4 py-3 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <Send size={18} />
