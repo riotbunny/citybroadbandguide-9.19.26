@@ -24,16 +24,15 @@ export default function BrownsvilleLandingPage() {
     setIsSubmitting(true);
 
     try {
-      await fetch('https://script.google.com/macros/s/AKfycbykqvHQS1VzqB_WHTlO0aJbSr8hvMkgtMC0-1KEuWmLkxitC_H2D_sasdAEwhJnoNoI/exec', {
+      await fetch('/api/lead', {
         method: 'POST',
-        mode: 'no-cors', // Prevents browser CORS blocking
         headers: {
-          'Content-Type': 'text/plain', // Bypasses preflight checks
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData)
       });
     } catch (error) {
-      console.error('Error submitting to Google Sheets:', error);
+      console.error('Error submitting lead:', error);
     }
     
     setIsSubmitting(false);
