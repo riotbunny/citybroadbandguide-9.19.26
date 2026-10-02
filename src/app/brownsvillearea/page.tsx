@@ -23,11 +23,18 @@ export default function BrownsvilleLandingPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // TODO: Plug in Google Sheets API here once provided
-    // Example: await fetch('/api/google-sheets', { method: 'POST', body: JSON.stringify(formData) })
-    
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 800));
+    try {
+      await fetch('https://script.google.com/macros/s/AKfycbykqvHQS1VzqB_WHTlO0aJbSr8hvMkgtMC0-1KEuWmLkxitC_H2D_sasdAEwhJnoNoI/exec', {
+        method: 'POST',
+        mode: 'no-cors', // Prevents browser CORS blocking
+        headers: {
+          'Content-Type': 'text/plain', // Bypasses preflight checks
+        },
+        body: JSON.stringify(formData)
+      });
+    } catch (error) {
+      console.error('Error submitting to Google Sheets:', error);
+    }
     
     setIsSubmitting(false);
     router.push('/brownsvillearea/thank-you');
