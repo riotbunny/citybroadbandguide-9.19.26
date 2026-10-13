@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import type { HTMLAttributes, ReactNode } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight,
@@ -631,14 +632,20 @@ export default function BrownsvilleLandingPage() {
                 highlightedText={formattedAddress}
                 help={t.step3Help}
               >
-                <div className="overflow-hidden rounded-[1.75rem] border border-orange-200 bg-gradient-to-br from-orange-50 via-white to-sky-50 shadow-xl shadow-orange-100/70">
-                  <div className="border-b border-orange-100 bg-orange-500 px-5 py-4 text-white">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/20">
-                        <PartyPopper className="h-6 w-6" />
+                <div className="overflow-hidden rounded-[1.75rem] border border-[#6d22ff]/25 bg-gradient-to-br from-[#f4efff] via-white to-[#eef7ff] shadow-xl shadow-[#6d22ff]/15">
+                  <div className="border-b border-white/20 bg-gradient-to-r from-[#5d16f2] via-[#6f22ff] to-[#2563eb] px-5 py-4 text-white">
+                    <div className="flex items-center gap-4">
+                      <div className="flex min-h-16 w-32 items-center justify-center rounded-2xl bg-white px-3 shadow-xl shadow-black/15">
+                        <Image
+                          src="/logos/omni-fiber-logo.png"
+                          alt="Omni Fiber"
+                          width={200}
+                          height={70}
+                          className="max-h-11 w-full object-contain"
+                        />
                       </div>
                       <div>
-                        <p className="text-xs font-black uppercase tracking-widest text-orange-100">
+                        <p className="text-xs font-black uppercase tracking-widest text-violet-100">
                           {t.promoTitle}
                         </p>
                         <h3 className="text-xl font-black leading-tight">
@@ -655,15 +662,15 @@ export default function BrownsvilleLandingPage() {
                       {t.promoChips.map((chip) => (
                         <div
                           key={chip}
-                          className="flex min-h-12 items-center justify-center rounded-2xl border border-orange-100 bg-white px-3 text-center text-xs font-black text-slate-800"
+                          className="flex min-h-12 items-center justify-center rounded-2xl border border-[#6d22ff]/15 bg-white px-3 text-center text-xs font-black text-slate-800"
                         >
                           {chip}
                         </div>
                       ))}
                     </div>
-                    <div className="rounded-2xl border border-sky-100 bg-sky-50 p-4">
-                      <div className="mb-2 flex items-center gap-2 text-sm font-black text-sky-950">
-                        <ShieldCheck className="h-4 w-4 text-sky-700" />
+                    <div className="rounded-2xl border border-[#6d22ff]/15 bg-white/80 p-4 shadow-sm">
+                      <div className="mb-2 flex items-center gap-2 text-sm font-black text-[#371085]">
+                        <ShieldCheck className="h-4 w-4 text-[#6d22ff]" />
                         {t.promoTitle}
                       </div>
                       <p className="text-sm font-semibold leading-relaxed text-slate-700">
@@ -692,13 +699,13 @@ export default function BrownsvilleLandingPage() {
                         onClick={() => updateField("planId", plan.id)}
                         className={`rounded-3xl border p-5 text-left transition active:scale-[0.99] ${
                           isSelected
-                            ? "border-orange-500 bg-orange-50 shadow-lg shadow-orange-200/70"
+                            ? "border-[#6d22ff] bg-[#f4efff] shadow-lg shadow-[#6d22ff]/20"
                             : "border-slate-200 bg-white hover:border-slate-300"
                         }`}
                       >
                         <div className="mb-3 flex items-start justify-between gap-3">
                           <div>
-                            <p className="text-xs font-black uppercase tracking-widest text-orange-600">
+                            <p className="text-xs font-black uppercase tracking-widest text-[#6d22ff]">
                               {plan.label[language]}
                             </p>
                             <h3 className="mt-1 text-3xl font-black text-slate-950">
@@ -727,7 +734,7 @@ export default function BrownsvilleLandingPage() {
                         <div
                           className={`mt-4 rounded-2xl px-4 py-3 text-center text-sm font-black ${
                             isSelected
-                              ? "bg-orange-500 text-white"
+                              ? "bg-[#6d22ff] text-white"
                               : "bg-slate-950 text-white"
                           }`}
                         >
