@@ -10,11 +10,11 @@ export default function ThankYouPage() {
         </div>
         
         <h1 className="text-2xl font-black text-slate-900 mb-4">
-          Request Received!
+          Request Received
         </h1>
         
         <p className="text-slate-600 mb-8 leading-relaxed">
-          Thank you for your interest in becoming an Omni customer. A representative will be contacting you soon to schedule your installation date and time.
+          Your information has been submitted to our back end schedulers. If deemed that the address is serviceable, you will receive a text message to proceed with account creation.
         </p>
 
         <Link 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { MessageCircle, X, Send, Phone, ExternalLink } from "lucide-react";
 
 type Message = {
@@ -19,6 +20,7 @@ type Message = {
 };
 
 export default function Chatbot() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [hasConnected, setHasConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -114,7 +116,7 @@ export default function Chatbot() {
         setIsLoading(false);
       }, 1500);
 
-    } catch (error) {
+    } catch {
       setIsTyping(false);
       setIsLoading(false);
       setMessages((prev) => [
@@ -123,6 +125,10 @@ export default function Chatbot() {
       ]);
     }
   };
+
+  if (pathname?.startsWith("/brownsvillearea")) {
+    return null;
+  }
 
   return (
     <>
