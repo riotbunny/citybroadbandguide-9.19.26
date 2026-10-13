@@ -633,23 +633,27 @@ export default function BrownsvilleLandingPage() {
                 highlightedText={formattedAddress}
                 help={t.step3Help}
               >
-                <div className="overflow-hidden rounded-[1.75rem] border border-[#6d22ff]/25 bg-gradient-to-br from-[#f4efff] via-white to-[#eef7ff] shadow-xl shadow-[#6d22ff]/15">
-                  <div className="border-b border-white/20 bg-gradient-to-r from-[#5d16f2] via-[#6f22ff] to-[#2563eb] px-5 py-4 text-white">
-                    <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-                      <div className="flex min-h-16 w-40 max-w-full items-center justify-center rounded-2xl bg-white px-4 shadow-xl shadow-black/15">
+                <div className="overflow-hidden rounded-[1.75rem] border border-[#6d22ff]/30 bg-gradient-to-br from-[#f3edff] via-white to-[#eef7ff] shadow-2xl shadow-[#6d22ff]/20">
+                  <div className="border-b border-white/20 bg-gradient-to-br from-[#4d0fd4] via-[#6f22ff] to-[#2563eb] px-5 py-6 text-white">
+                    <div className="flex flex-col items-stretch gap-5 sm:flex-row sm:items-center">
+                      <div className="flex min-h-28 w-full items-center justify-center rounded-[1.4rem] bg-white px-5 py-4 shadow-2xl shadow-black/20 sm:w-64">
                         <Image
                           src="/logos/omni-fiber-logo.png"
                           alt="Omni Fiber"
-                          width={200}
-                          height={70}
-                          className="max-h-11 w-full object-contain"
+                          width={360}
+                          height={126}
+                          priority={step === 3}
+                          className="max-h-20 w-full object-contain sm:max-h-24"
                         />
                       </div>
                       <div>
-                        <p className="text-xs font-black uppercase tracking-widest text-violet-100">
+                        <p className="mb-2 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-black uppercase tracking-widest text-violet-100 ring-1 ring-white/20">
+                          Omni Fiber offer unlocked
+                        </p>
+                        <p className="text-sm font-black uppercase tracking-widest text-violet-100">
                           {t.promoTitle}
                         </p>
-                        <h3 className="text-2xl font-black leading-tight">
+                        <h3 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">
                           {t.revealTitle}
                         </h3>
                       </div>
@@ -669,7 +673,7 @@ export default function BrownsvilleLandingPage() {
                         </div>
                       ))}
                     </div>
-                    <div className="rounded-2xl border border-[#6d22ff]/15 bg-white/80 p-4 shadow-sm">
+                    <div className="rounded-2xl border border-[#6d22ff]/15 bg-white/90 p-4 shadow-sm">
                       <div className="mb-2 flex items-center gap-2 text-base font-black text-[#371085]">
                         <ShieldCheck className="h-4 w-4 text-[#6d22ff]" />
                         {t.promoTitle}
@@ -700,7 +704,7 @@ export default function BrownsvilleLandingPage() {
                         onClick={() => updateField("planId", plan.id)}
                         className={`rounded-3xl border p-5 text-left transition active:scale-[0.99] ${
                           isSelected
-                            ? "border-[#6d22ff] bg-[#f4efff] shadow-lg shadow-[#6d22ff]/20"
+                            ? "border-[#6d22ff] bg-gradient-to-br from-[#f4efff] to-white shadow-xl shadow-[#6d22ff]/25 ring-2 ring-[#6d22ff]/15"
                             : "border-slate-200 bg-white hover:border-slate-300"
                         }`}
                       >
