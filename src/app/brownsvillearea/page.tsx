@@ -393,15 +393,16 @@ export default function BrownsvilleLandingPage() {
         <div className="absolute inset-0 bg-[linear-gradient(135deg,#07111f_0%,#0a2740_44%,#0f172a_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,#050712)]" />
         <div className="relative mx-auto max-w-6xl">
-          <div className="flex items-center justify-between gap-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-3 py-2 text-[11px] font-black uppercase tracking-widest text-sky-100 shadow-2xl shadow-black/20">
+          <div className="flex items-start justify-between gap-3">
+            <div className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-3 py-2 text-[11px] font-black uppercase tracking-widest text-sky-100 shadow-2xl shadow-black/20">
               <Sparkles className="h-3.5 w-3.5 text-orange-300" />
               {t.productKicker}
             </div>
             <button
               type="button"
+              aria-label={language === "en" ? "Switch to Spanish" : "Switch to English"}
               onClick={() => setLanguage(language === "en" ? "es" : "en")}
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white px-3 py-2 text-xs font-black text-slate-950 shadow-[0_16px_40px_rgba(0,0,0,0.25)]"
+              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-full border-2 border-orange-300 bg-white px-4 text-sm font-black text-slate-950 shadow-[0_16px_40px_rgba(0,0,0,0.25)] ring-4 ring-white/10"
             >
               <Languages className="h-4 w-4 text-orange-600" />
               {t.language}
@@ -417,14 +418,14 @@ export default function BrownsvilleLandingPage() {
               <h1 className="max-w-3xl text-4xl font-black leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl">
                 {t.title}
               </h1>
-              <p className="mt-5 max-w-2xl text-base font-semibold leading-relaxed text-slate-300 sm:text-lg">
+              <p className="mt-5 max-w-2xl text-[17px] font-semibold leading-relaxed text-slate-300 sm:text-lg">
                 {t.subtitle}
               </p>
               <div className="mt-7 grid grid-cols-2 gap-2 sm:max-w-2xl sm:grid-cols-4">
                 {t.trust.map((item) => (
                   <div
                     key={item}
-                    className="min-h-16 rounded-[1.15rem] border border-white/10 bg-white/[0.08] px-3 py-3 text-xs font-black leading-tight text-white shadow-lg shadow-black/10 backdrop-blur"
+                    className="min-h-[4.5rem] rounded-[1.15rem] border border-white/10 bg-white/[0.08] px-3 py-3 text-sm font-black leading-snug text-white shadow-lg shadow-black/10 backdrop-blur"
                   >
                     <Check className="mb-2 h-4 w-4 text-emerald-300" />
                     {item}
@@ -525,14 +526,14 @@ export default function BrownsvilleLandingPage() {
             <div className="border-b border-slate-200 bg-[#f8fafc] p-4 sm:p-5">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-500">
+                  <p className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-500">
                     Step {step} / {TOTAL_STEPS}
                   </p>
-                  <p className="mt-1 text-sm font-black text-slate-950">
+                  <p className="mt-1 text-base font-black text-slate-950">
                     {t.steps[step - 1]}
                   </p>
                 </div>
-                <div className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-black text-slate-500">
+                <div className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-black text-slate-500">
                   {progress}%
                 </div>
               </div>
@@ -590,16 +591,16 @@ export default function BrownsvilleLandingPage() {
             {step === 2 && (
               <StepPanel icon={<Wifi />} title={t.step2Title} help={t.providerHelp}>
                 <label className="block">
-                  <span className="mb-2 flex items-center justify-between text-sm font-black text-slate-800">
+                  <span className="mb-2 flex items-center justify-between text-base font-black text-slate-800">
                     <span>{t.step2Title}</span>
-                    <span className="text-xs font-bold uppercase tracking-wider text-orange-600">
+                    <span className="text-xs font-black uppercase tracking-wider text-orange-600">
                       {t.required}
                     </span>
                   </span>
                   <select
                     value={formData.provider}
                     onChange={(event) => updateField("provider", event.target.value)}
-                    className="h-14 w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base font-extrabold text-slate-950 outline-none ring-orange-500 transition focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100"
+                    className="h-16 w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-4 text-lg font-extrabold text-slate-950 outline-none ring-orange-500 transition focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100"
                   >
                     <option value="">{t.providerPlaceholder}</option>
                     {providers.map((provider) => (
@@ -616,7 +617,7 @@ export default function BrownsvilleLandingPage() {
                       <XCircle className="h-5 w-5" />
                       {t.currentProviderBlockedTitle}
                     </div>
-                    <p className="text-sm font-semibold leading-relaxed text-amber-800">
+                    <p className="text-base font-semibold leading-relaxed text-amber-800">
                       {t.currentProviderBlockedText}
                     </p>
                   </div>
@@ -634,8 +635,8 @@ export default function BrownsvilleLandingPage() {
               >
                 <div className="overflow-hidden rounded-[1.75rem] border border-[#6d22ff]/25 bg-gradient-to-br from-[#f4efff] via-white to-[#eef7ff] shadow-xl shadow-[#6d22ff]/15">
                   <div className="border-b border-white/20 bg-gradient-to-r from-[#5d16f2] via-[#6f22ff] to-[#2563eb] px-5 py-4 text-white">
-                    <div className="flex items-center gap-4">
-                      <div className="flex min-h-16 w-32 items-center justify-center rounded-2xl bg-white px-3 shadow-xl shadow-black/15">
+                    <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+                      <div className="flex min-h-16 w-40 max-w-full items-center justify-center rounded-2xl bg-white px-4 shadow-xl shadow-black/15">
                         <Image
                           src="/logos/omni-fiber-logo.png"
                           alt="Omni Fiber"
@@ -648,32 +649,32 @@ export default function BrownsvilleLandingPage() {
                         <p className="text-xs font-black uppercase tracking-widest text-violet-100">
                           {t.promoTitle}
                         </p>
-                        <h3 className="text-xl font-black leading-tight">
+                        <h3 className="text-2xl font-black leading-tight">
                           {t.revealTitle}
                         </h3>
                       </div>
                     </div>
                   </div>
                   <div className="space-y-4 p-5">
-                    <p className="text-sm font-semibold leading-relaxed text-slate-700">
+                    <p className="text-base font-semibold leading-relaxed text-slate-700">
                       {t.revealText}
                     </p>
                     <div className="grid grid-cols-2 gap-2">
                       {t.promoChips.map((chip) => (
                         <div
                           key={chip}
-                          className="flex min-h-12 items-center justify-center rounded-2xl border border-[#6d22ff]/15 bg-white px-3 text-center text-xs font-black text-slate-800"
+                          className="flex min-h-14 items-center justify-center rounded-2xl border border-[#6d22ff]/15 bg-white px-3 text-center text-sm font-black leading-snug text-slate-800"
                         >
                           {chip}
                         </div>
                       ))}
                     </div>
                     <div className="rounded-2xl border border-[#6d22ff]/15 bg-white/80 p-4 shadow-sm">
-                      <div className="mb-2 flex items-center gap-2 text-sm font-black text-[#371085]">
+                      <div className="mb-2 flex items-center gap-2 text-base font-black text-[#371085]">
                         <ShieldCheck className="h-4 w-4 text-[#6d22ff]" />
                         {t.promoTitle}
                       </div>
-                      <p className="text-sm font-semibold leading-relaxed text-slate-700">
+                      <p className="text-base font-semibold leading-relaxed text-slate-700">
                         {t.promoText}
                       </p>
                     </div>
@@ -684,7 +685,7 @@ export default function BrownsvilleLandingPage() {
                   <h3 className="mb-3 text-xl font-black tracking-tight text-slate-950">
                     {t.choosePlanTitle}
                   </h3>
-                  <p className="text-sm font-semibold text-slate-600">
+                  <p className="text-base font-semibold leading-relaxed text-slate-600">
                     {t.choosePlanHelp}
                   </p>
                 </div>
@@ -714,17 +715,17 @@ export default function BrownsvilleLandingPage() {
                           </div>
                           <div className="text-right">
                             <p className="text-3xl font-black text-slate-950">{plan.price}</p>
-                            <p className="text-xs font-bold text-slate-500">plus $1 start</p>
+                            <p className="text-sm font-bold text-slate-500">plus $1 start</p>
                           </div>
                         </div>
-                        <p className="mb-4 text-sm font-semibold leading-relaxed text-slate-600">
+                        <p className="mb-4 text-base font-semibold leading-relaxed text-slate-600">
                           {plan.bestFor[language]}
                         </p>
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                           {plan.bullets[language].map((bullet) => (
                             <span
                               key={bullet}
-                              className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-xs font-black text-slate-700"
+                              className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-sm font-black text-slate-700"
                             >
                               <Check className="h-3.5 w-3.5 text-emerald-600" />
                               {bullet}
@@ -732,7 +733,7 @@ export default function BrownsvilleLandingPage() {
                           ))}
                         </div>
                         <div
-                          className={`mt-4 rounded-2xl px-4 py-3 text-center text-sm font-black ${
+                          className={`mt-4 rounded-2xl px-4 py-3 text-center text-base font-black ${
                             isSelected
                               ? "bg-[#6d22ff] text-white"
                               : "bg-slate-950 text-white"
@@ -808,7 +809,7 @@ export default function BrownsvilleLandingPage() {
                   inputMode="tel"
                   onChange={(value) => updateField("phone", value)}
                 />
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs font-semibold leading-relaxed text-slate-600">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold leading-relaxed text-slate-600">
                   {t.consent}
                 </div>
               </StepPanel>
@@ -833,20 +834,20 @@ export default function BrownsvilleLandingPage() {
                     {error}
                   </div>
                 )}
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs font-semibold leading-relaxed text-slate-600">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold leading-relaxed text-slate-600">
                   {t.consent}
                 </div>
               </StepPanel>
             )}
           </div>
 
-          <div className="sticky bottom-0 border-t border-slate-100 bg-white/95 p-4 backdrop-blur">
+          <div className="sticky bottom-0 border-t border-slate-100 bg-white/95 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] backdrop-blur">
             <div className="mx-auto flex max-w-2xl gap-3">
               {step > 1 && (
                 <button
                   type="button"
                   onClick={goBack}
-                  className="inline-flex h-14 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 font-black text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+                  className="inline-flex h-16 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 text-base font-black text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
                 >
                   <ChevronLeft className="h-5 w-5 sm:mr-2" />
                   <span className="hidden sm:inline">{t.back}</span>
@@ -857,7 +858,7 @@ export default function BrownsvilleLandingPage() {
                 <button
                   type="button"
                   onClick={goForward}
-                  className="h-14 flex-1 rounded-2xl bg-slate-950 px-5 text-base font-black text-white shadow-xl shadow-slate-300 transition hover:bg-slate-800 active:scale-[0.99]"
+                  className="h-16 flex-1 rounded-2xl bg-slate-950 px-5 text-lg font-black text-white shadow-xl shadow-slate-300 transition hover:bg-slate-800 active:scale-[0.99]"
                 >
                   {formData.email.trim() ? t.continue : t.skipEmail}
                 </button>
@@ -866,7 +867,7 @@ export default function BrownsvilleLandingPage() {
                   type="button"
                   onClick={handleSubmit}
                   disabled={primaryDisabled}
-                  className="h-14 flex-1 rounded-2xl bg-[#ff6a1a] px-5 text-base font-black text-white shadow-xl shadow-orange-200 transition hover:bg-[#f05e10] active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+                  className="h-16 flex-1 rounded-2xl bg-[#ff6a1a] px-5 text-lg font-black text-white shadow-xl shadow-orange-200 transition hover:bg-[#f05e10] active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
                 >
                   {isSubmitting ? t.submitting : t.submit}
                 </button>
@@ -875,7 +876,7 @@ export default function BrownsvilleLandingPage() {
                   type="button"
                   onClick={goForward}
                   disabled={primaryDisabled}
-                  className="inline-flex h-14 flex-1 items-center justify-center rounded-2xl bg-[#ff6a1a] px-5 text-base font-black text-white shadow-xl shadow-orange-200 transition hover:bg-[#f05e10] active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+                  className="inline-flex h-16 flex-1 items-center justify-center rounded-2xl bg-[#ff6a1a] px-5 text-lg font-black text-white shadow-xl shadow-orange-200 transition hover:bg-[#f05e10] active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
                 >
                   {t.continue}
                   <ArrowRight className="ml-2 h-5 w-5" />
